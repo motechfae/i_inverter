@@ -55,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
             .add("FunValues", "'${username}','${password}'")
             .build()
         val request = Request.Builder()
-            .url("https://i-inverter.motech.com.tw/vUserApisvr/api/values")
+            .url(BaseUrl)
             .post(formBody)
             .build()
 
