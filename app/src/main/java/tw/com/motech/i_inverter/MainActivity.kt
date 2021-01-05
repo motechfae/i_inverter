@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         fun4.setOnClickListener{
             ShowToast("跳轉到功能4頁面")
         }
+
     }
 
     private fun ShowToast(msg: String) =
