@@ -1,7 +1,13 @@
 package tw.com.motech.i_inverter
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.system.Os.remove
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.GridView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +38,33 @@ class MainActivity : AppCompatActivity() {
             ShowToast("跳轉到功能4頁面")
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        var item = menu?.findItem(R.id.usernmae)
+        item?.title = "你好，${UserName}"
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.logout -> logout()
+        }
+        return true
+    }
+
+    private fun logout() {
+        val editor =
+            getSharedPreferences(LoginSP, Context.MODE_PRIVATE).edit()
+        editor.clear()
+        editor.commit()
+
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     private fun ShowToast(msg: String) =
