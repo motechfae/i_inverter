@@ -27,49 +27,53 @@ class SiteResult(
 
 class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
-    private lateinit var r11 : LinearLayout
-    private lateinit var r11_btn : ImageButton
-    private lateinit var r11_tv : TextView
-    private lateinit var r12 : LinearLayout
-    private lateinit var r12_btn : ImageButton
-    private lateinit var r12_tv : TextView
-    private lateinit var r21 : LinearLayout
-    private lateinit var r21_btn : ImageButton
-    private lateinit var r21_tv : TextView
-    private lateinit var r22 : LinearLayout
-    private lateinit var r22_btn : ImageButton
-    private lateinit var r22_tv : TextView
-    private lateinit var r31 : LinearLayout
-    private lateinit var r31_btn : ImageButton
-    private lateinit var r31_tv : TextView
-    private lateinit var r32 : LinearLayout
-    private lateinit var r32_btn : ImageButton
-    private lateinit var r32_tv : TextView
-    private lateinit var r41 : LinearLayout
-    private lateinit var r41_btn : ImageButton
-    private lateinit var r41_tv : TextView
-    private lateinit var r42 : LinearLayout
-    private lateinit var r42_btn : ImageButton
-    private lateinit var r42_tv : TextView
-    private lateinit var r51 : LinearLayout
-    private lateinit var r51_btn : ImageButton
-    private lateinit var r51_tv : TextView
-    private lateinit var r52 : LinearLayout
-    private lateinit var r52_btn : ImageButton
-    private lateinit var r52_tv : TextView
-    private lateinit var images : ArrayList<ImageButton>
-    private lateinit var tvs : ArrayList<TextView>
-    private lateinit var lls : ArrayList<LinearLayout>
+    private lateinit var r11: LinearLayout
+    private lateinit var r11_btn: ImageButton
+    private lateinit var r11_tv: TextView
+    private lateinit var r12: LinearLayout
+    private lateinit var r12_btn: ImageButton
+    private lateinit var r12_tv: TextView
+    private lateinit var r21: LinearLayout
+    private lateinit var r21_btn: ImageButton
+    private lateinit var r21_tv: TextView
+    private lateinit var r22: LinearLayout
+    private lateinit var r22_btn: ImageButton
+    private lateinit var r22_tv: TextView
+    private lateinit var r31: LinearLayout
+    private lateinit var r31_btn: ImageButton
+    private lateinit var r31_tv: TextView
+    private lateinit var r32: LinearLayout
+    private lateinit var r32_btn: ImageButton
+    private lateinit var r32_tv: TextView
+    private lateinit var r41: LinearLayout
+    private lateinit var r41_btn: ImageButton
+    private lateinit var r41_tv: TextView
+    private lateinit var r42: LinearLayout
+    private lateinit var r42_btn: ImageButton
+    private lateinit var r42_tv: TextView
+    private lateinit var r51: LinearLayout
+    private lateinit var r51_btn: ImageButton
+    private lateinit var r51_tv: TextView
+    private lateinit var r52: LinearLayout
+    private lateinit var r52_btn: ImageButton
+    private lateinit var r52_tv: TextView
+    private lateinit var images: ArrayList<ImageButton>
+    private lateinit var tvs: ArrayList<TextView>
+    private lateinit var lls: ArrayList<LinearLayout>
 
-    private lateinit var  btnPre : Button
-    private lateinit var  btnNext : Button
+    private lateinit var btnPre: Button
+    private lateinit var btnNext: Button
 
     private var SITE_PER_PAGE = 10
     private var currPage = 1
     private var pages = 1
-    private lateinit var list : List<SiteResult>
+    private lateinit var list: List<SiteResult>
 
     private lateinit var mDetector: GestureDetectorCompat
+
+    private var start_move_x = 0.0f
+    private var end_move_x = 0.0f
+    private var is_move = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,12 +84,49 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         fundById()
         SiteInfo()
 
-        btnPre.setOnClickListener{
+        btnPre.setOnClickListener {
             prePage()
         }
 
-        btnNext.setOnClickListener{
+        btnNext.setOnClickListener {
             nextPage()
+        }
+
+        // 複寫每一個ImageButton左移右移的事件
+        images.forEachIndexed { index, imageButton ->
+            imageButton.setOnTouchListener(object : View.OnTouchListener {
+                override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                    println("onTouch : ${event}")
+                    when (event?.action) {
+                        MotionEvent.ACTION_DOWN -> {
+                            start_move_x = event.x
+                            is_move = false
+                        }
+                       MotionEvent.ACTION_MOVE -> {
+                            end_move_x = event.x
+                            is_move = true
+                        }
+                        MotionEvent.ACTION_UP -> {
+                            if (is_move) {
+                                println("換頁")
+                                if (start_move_x < end_move_x) {
+                                    prePage()
+                                } else {
+                                    nextPage()
+                                }
+                            } else {
+                                Toast.makeText(v?.context, "切到${tvs[index].text}案場", Toast.LENGTH_SHORT).show()
+                            }
+
+                        }
+                    }
+                    return v?.onTouchEvent(event) ?: true
+                }
+            })
+        }
+
+        tvs.forEach { textView ->
+            textView.text = "下載中..."
         }
     }
 
@@ -134,16 +175,18 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         r42_btn = findViewById<ImageButton>(R.id.r42_btn)
         r51_btn = findViewById<ImageButton>(R.id.r51_btn)
         r52_btn = findViewById<ImageButton>(R.id.r52_btn)
-        images = arrayListOf<ImageButton>(  r11_btn,
-                                            r12_btn,
-                                            r21_btn,
-                                            r22_btn,
-                                            r31_btn,
-                                            r32_btn,
-                                            r41_btn,
-                                            r42_btn,
-                                            r51_btn,
-                                            r52_btn)
+        images = arrayListOf<ImageButton>(
+            r11_btn,
+            r12_btn,
+            r21_btn,
+            r22_btn,
+            r31_btn,
+            r32_btn,
+            r41_btn,
+            r42_btn,
+            r51_btn,
+            r52_btn
+        )
 
         r11_tv = findViewById<TextView>(R.id.r11_tv)
         r12_tv = findViewById<TextView>(R.id.r12_tv)
@@ -155,16 +198,18 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         r42_tv = findViewById<TextView>(R.id.r42_tv)
         r51_tv = findViewById<TextView>(R.id.r51_tv)
         r52_tv = findViewById<TextView>(R.id.r52_tv)
-        tvs = arrayListOf<TextView>(r11_tv,
-                                    r12_tv,
-                                    r21_tv,
-                                    r22_tv,
-                                    r31_tv,
-                                    r32_tv,
-                                    r41_tv,
-                                    r42_tv,
-                                    r51_tv,
-                                    r52_tv)
+        tvs = arrayListOf<TextView>(
+            r11_tv,
+            r12_tv,
+            r21_tv,
+            r22_tv,
+            r31_tv,
+            r32_tv,
+            r41_tv,
+            r42_tv,
+            r51_tv,
+            r52_tv
+        )
 
         r11 = findViewById<LinearLayout>(R.id.r11)
         r12 = findViewById<LinearLayout>(R.id.r12)
@@ -176,7 +221,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         r42 = findViewById<LinearLayout>(R.id.r42)
         r51 = findViewById<LinearLayout>(R.id.r51)
         r52 = findViewById<LinearLayout>(R.id.r52)
-        lls = arrayListOf<LinearLayout>(r11,r12,r21,r22,r31,r32,r41,r42,r51,r52)
+        lls = arrayListOf<LinearLayout>(r11, r12, r21, r22, r31, r32, r41, r42, r51, r52)
 
         btnPre = findViewById<Button>(R.id.btnPre)
         btnNext = findViewById<Button>(R.id.btnNext)
@@ -213,7 +258,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                         pages = (list.count() / SITE_PER_PAGE) + 1
                         this@SiteActivity.supportActionBar!!.title = "北部案場 (1/${pages})"
 
-                        Update(0 , SITE_PER_PAGE-1)
+                        Update(0, SITE_PER_PAGE - 1)
                     }
                 }
             }
@@ -237,7 +282,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         // 案場狀態
         images.forEachIndexed lit_images@{ index, imageButton ->
 
-            if (index > listRange.count()-1) return@lit_images
+            if (index > listRange.count() - 1) return@lit_images
             when (listRange[index].nSHI) {
                 1 -> {
                     imageButton.setImageResource(R.drawable.hi_good)
@@ -281,12 +326,15 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         // 案場名稱
         tvs.forEachIndexed lit_tvs@{ index, element ->
-            if (index > listRange.count()-1) return@lit_tvs
+            if (index > listRange.count() - 1) return@lit_tvs
             element.text = listRange[index].sSite_Name
         }
     }
 
+
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        println("onTouchEvent : ${event}")
         return if (mDetector.onTouchEvent(event)) {
             true
         } else {
@@ -312,13 +360,13 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         val beginY = event1.y
         val endY = event2.y
 
-        if (beginX-endX > minMove && abs(velocityX) > minVelocity) {
+        if (beginX - endX > minMove && abs(velocityX) > minVelocity) {
             nextPage()
-        } else if(endX-beginX > minMove && Math.abs(velocityX) > minVelocity) {
+        } else if (endX - beginX > minMove && Math.abs(velocityX) > minVelocity) {
             prePage()
-        } else if(beginY-endY > minMove && Math.abs(velocityY) > minVelocity){
+        } else if (beginY - endY > minMove && Math.abs(velocityY) > minVelocity) {
             println("上滑")
-        } else if(endY-beginY > minMove && Math.abs(velocityY) > minVelocity){
+        } else if (endY - beginY > minMove && Math.abs(velocityY) > minVelocity) {
             println("下滑")
         }
         return true
