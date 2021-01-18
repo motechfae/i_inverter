@@ -96,7 +96,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         images.forEachIndexed { index, imageButton ->
             imageButton.setOnTouchListener(object : View.OnTouchListener {
                 override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                    println("onTouch : ${event}")
+                    //println("onTouch : ${event}")
                     when (event?.action) {
                         MotionEvent.ACTION_DOWN -> {
                             start_move_x = event.x
@@ -108,7 +108,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                         }
                         MotionEvent.ACTION_UP -> {
                             if (is_move) {
-                                println("換頁")
+                                //println("換頁")
                                 if (start_move_x < end_move_x) {
                                     prePage()
                                 } else {
@@ -249,9 +249,11 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     val json = response.body!!.string() // 資料只能抓一次
                     list = Gson().fromJson(json, Array<SiteResult>::class.java).toList()
 
+                    /*
                     for (l in list) {
                         println("sSite_Name: ${l.sSite_Name}, nSHI: ${l.nSHI}")
                     }
+                    */
 
                     runOnUiThread {
                         // 頁數
@@ -331,10 +333,8 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         }
     }
 
-
-
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        println("onTouchEvent : ${event}")
+        //println("onTouchEvent : ${event}")
         return if (mDetector.onTouchEvent(event)) {
             true
         } else {
@@ -365,9 +365,9 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         } else if (endX - beginX > minMove && Math.abs(velocityX) > minVelocity) {
             prePage()
         } else if (beginY - endY > minMove && Math.abs(velocityY) > minVelocity) {
-            println("上滑")
+            //println("上滑")
         } else if (endY - beginY > minMove && Math.abs(velocityY) > minVelocity) {
-            println("下滑")
+            //println("下滑")
         }
         return true
     }
