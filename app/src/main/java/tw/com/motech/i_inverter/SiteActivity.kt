@@ -75,12 +75,15 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private var end_move_x = 0.0f
     private var is_move = false
 
+    private var type = "1"
+    private var typeName = "北"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_site)
-
         mDetector = GestureDetectorCompat(this, this)
 
+        GetSiteType()
         fundById()
         SiteInfo()
 
@@ -130,10 +133,22 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         }
     }
 
+    private fun GetSiteType() {
+        // 取得北中南東的位置
+        intent?.extras?.let {
+            type = it.getString("sSiteType").toString()
+            when(type) {
+                "1" -> typeName = "北"
+                "2" -> typeName = "中"
+                "3" -> typeName = "南"
+            }
+        }
+    }
+
     private fun nextPage() {
         if (currPage < pages) {
             currPage++
-            this@SiteActivity.supportActionBar!!.title = "北部案場 (${currPage}/${pages})"
+            BarTitle()
 
             var begin = (currPage - 1) * SITE_PER_PAGE
             var end = begin + SITE_PER_PAGE - 1
@@ -149,7 +164,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private fun prePage() {
         if (currPage > 1) {
             currPage--;
-            this@SiteActivity.supportActionBar!!.title = "北部案場 (${currPage}/${pages})"
+            BarTitle()
 
             var begin = (currPage - 1) * SITE_PER_PAGE
             var end = begin + SITE_PER_PAGE - 1
@@ -161,6 +176,10 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
             Update(begin, end)
         }
+    }
+
+    private fun BarTitle() {
+        this@SiteActivity.supportActionBar!!.title = "${typeName}部案場 (${currPage}/${pages})"
     }
 
     fun fundById() {
@@ -248,17 +267,16 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
                     val json = response.body!!.string() // 資料只能抓一次
                     list = Gson().fromJson(json, Array<SiteResult>::class.java).toList()
-
+                    list = list.filter { it.sSiteType == type }
                     /*
                     for (l in list) {
                         println("sSite_Name: ${l.sSite_Name}, nSHI: ${l.nSHI}")
                     }
                     */
-
                     runOnUiThread {
                         // 頁數
                         pages = (list.count() / SITE_PER_PAGE) + 1
-                        this@SiteActivity.supportActionBar!!.title = "北部案場 (1/${pages})"
+                        BarTitle()
 
                         Update(0, SITE_PER_PAGE - 1)
                     }
@@ -277,12 +295,11 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         var listRange = list.slice(begin..end)
 
-        lls.forEachIndexed { index, linearLayout ->
-            linearLayout.visibility = View.GONE
-        }
-
         // 案場狀態
         images.forEachIndexed lit_images@{ index, imageButton ->
+
+            imageButton.setImageResource(R.drawable.hi_blank)
+            imageButton.setBackgroundResource(R.color.hiblank_background_color)
 
             if (index > listRange.count() - 1) return@lit_images
             when (listRange[index].nSHI) {
@@ -323,13 +340,15 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     imageButton.setBackgroundResource(R.color.hisleep_background_color)
                 }
             }
-            lls[index].visibility = View.VISIBLE
         }
 
         // 案場名稱
-        tvs.forEachIndexed lit_tvs@{ index, element ->
+        tvs.forEachIndexed lit_tvs@{ index, textView ->
+
+            textView.text = ""
+
             if (index > listRange.count() - 1) return@lit_tvs
-            element.text = listRange[index].sSite_Name
+            textView.text = listRange[index].sSite_Name
         }
     }
 

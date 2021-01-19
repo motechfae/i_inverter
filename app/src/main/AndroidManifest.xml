@@ -13,14 +13,18 @@
         android:theme="@style/Theme.I_inverter">
         <activity
             android:name=".TaiwanActivity"
-            android:label="@string/title_activity_taiwan"
-            android:theme="@style/Theme.I_inverter.NoActionBar"></activity>
-        <activity android:name=".SiteActivity">
+            android:label="區域選擇">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".SiteActivity"
+            android:parentActivityName=".TaiwanActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".TaiwanActivity" />
         </activity>
         <activity android:name=".LoginActivity"></activity>
         <activity
