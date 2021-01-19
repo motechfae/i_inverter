@@ -11,6 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.I_inverter">
+        <activity
+            android:name=".TaiwanActivity"
+            android:label="@string/title_activity_taiwan"
+            android:theme="@style/Theme.I_inverter.NoActionBar"></activity>
         <activity android:name=".SiteActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,12 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity">
-
-        </activity>
+        <activity android:name=".LoginActivity"></activity>
         <activity
             android:name=".MainActivity"
-            android:label="功能頁面"></activity>
+            android:label="功能頁面" />
     </application>
 
 </manifest>
