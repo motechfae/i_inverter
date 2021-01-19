@@ -64,13 +64,12 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private lateinit var btnPre: Button
     private lateinit var btnNext: Button
 
-    private var SITE_PER_PAGE = 10
+    private val SITE_PER_PAGE = 10
     private var currPage = 1
     private var pages = 1
     private lateinit var list: List<SiteResult>
 
     private lateinit var mDetector: GestureDetectorCompat
-
     private var start_move_x = 0.0f
     private var end_move_x = 0.0f
     private var is_move = false
@@ -83,9 +82,9 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         setContentView(R.layout.activity_site)
         mDetector = GestureDetectorCompat(this, this)
 
-        GetSiteType()
+        getSiteType()
         fundById()
-        SiteInfo()
+        getSiteInfo()
 
         btnPre.setOnClickListener {
             prePage()
@@ -133,7 +132,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         }
     }
 
-    private fun GetSiteType() {
+    private fun getSiteType() {
         // 取得北中南東的位置
         intent?.extras?.let {
             type = it.getString("sSiteType").toString()
@@ -148,7 +147,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private fun nextPage() {
         if (currPage < pages) {
             currPage++
-            BarTitle()
+            setBarTitle()
 
             var begin = (currPage - 1) * SITE_PER_PAGE
             var end = begin + SITE_PER_PAGE - 1
@@ -157,14 +156,14 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 end = begin + list.count() % SITE_PER_PAGE - 1
             }
 
-            Update(begin, end)
+            update(begin, end)
         }
     }
 
     private fun prePage() {
         if (currPage > 1) {
             currPage--;
-            BarTitle()
+            setBarTitle()
 
             var begin = (currPage - 1) * SITE_PER_PAGE
             var end = begin + SITE_PER_PAGE - 1
@@ -174,15 +173,15 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 end = list.count() % SITE_PER_PAGE
             }
 
-            Update(begin, end)
+            update(begin, end)
         }
     }
 
-    private fun BarTitle() {
+    private fun setBarTitle() {
         this@SiteActivity.supportActionBar!!.title = "${typeName}部案場 (${currPage}/${pages})"
     }
 
-    fun fundById() {
+    private fun fundById() {
 
         r11_btn = findViewById<ImageButton>(R.id.r11_btn)
         r12_btn = findViewById<ImageButton>(R.id.r12_btn)
@@ -246,7 +245,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         btnNext = findViewById<Button>(R.id.btnNext)
     }
 
-    fun SiteInfo() {
+    private fun getSiteInfo() {
         var funCode = "V02_RwdDashboard04"
         var funValues = "admin"//UserName
         println("FunCode:${funCode}, FunValues:${funValues}")
@@ -276,9 +275,9 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     runOnUiThread {
                         // 頁數
                         pages = (list.count() / SITE_PER_PAGE) + 1
-                        BarTitle()
+                        setBarTitle()
 
-                        Update(0, SITE_PER_PAGE - 1)
+                        update(0, SITE_PER_PAGE - 1)
                     }
                 }
             }
@@ -289,7 +288,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         })
     }
 
-    fun Update(begin: Int, end: Int) {
+    private fun update(begin: Int, end: Int) {
 
         println("list size: ${list.count()}, begin : ${begin}, end : ${end}")
 

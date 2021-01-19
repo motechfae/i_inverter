@@ -40,17 +40,17 @@ class LoginActivity : AppCompatActivity() {
         if (username != null && password != null) {
             et_username.setText(username)
             et_password.setText(password)
-            PostLogin(username, password)
+            postLogin(username, password)
         }
 
         // 使用按鈕登入
         var btn_login = findViewById<Button>(R.id.btn_login)
         btn_login.setOnClickListener {
-            PostLogin(et_username.text.toString(), et_password.text.toString())
+            postLogin(et_username.text.toString(), et_password.text.toString())
         }
     }
 
-    fun PostLogin(username: String?, password: String?) {
+    private fun postLogin(username: String?, password: String?) {
         val formBody = FormBody.Builder()
             .add("FunCode", "V01_Login01")
             .add("FunValues", "'${username}','${password}'")
