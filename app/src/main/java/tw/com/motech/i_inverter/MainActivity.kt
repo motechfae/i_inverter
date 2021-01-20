@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /* Action Bar 返回上一頁的功能有問題，先註解再找
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return true
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
         startActivity(Intent(this, LoginActivity::class.java))
     }
-
+    */
     private fun showToast(msg: String) =
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }

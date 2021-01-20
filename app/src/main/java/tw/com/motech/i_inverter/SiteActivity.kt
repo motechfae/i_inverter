@@ -1,5 +1,6 @@
 package tw.com.motech.i_inverter
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -118,6 +119,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                                 }
                             } else {
                                 Toast.makeText(v?.context, "切到${tvs[index].text}案場", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this@SiteActivity, MainActivity::class.java))
                             }
 
                         }

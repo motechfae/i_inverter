@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
                         if (username.equals(list[0].sAccount) && password.equals(list[0].sPassword)) {
 
                             UserName = list[0].sAccount
-                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                            startActivity(Intent(this@LoginActivity, TaiwanActivity::class.java))
                             /*
                             runOnUiThread{
                                 Toast.makeText(this@LoginActivity, "登入成功，跳轉至功能頁面!", Toast.LENGTH_SHORT).show()
