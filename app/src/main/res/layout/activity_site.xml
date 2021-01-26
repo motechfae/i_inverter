@@ -345,7 +345,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/tableLayout"
         android:background="@color/purple_500"
         app:tabTextColor="@color/white"
-        app:tabTextAppearance="@style/MyCustomTabText">
+        app:tabTextAppearance="@style/MyCustomTabText"
+        app:tabIndicatorColor="#ff00ff">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
