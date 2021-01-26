@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.core.view.GestureDetectorCompat
+import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
@@ -64,6 +65,8 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     private lateinit var btnPre: Button
     private lateinit var btnNext: Button
+
+    private lateinit var tabs : TabLayout
 
     private val SITE_PER_PAGE = 10
     private var currPage = 1
@@ -132,6 +135,34 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         tvs.forEach { textView ->
             textView.text = "下載中..."
         }
+
+        // 北中南切頁事件
+        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when(tab?.position) {
+                    0 -> {
+                        type = "1"
+                        typeName = "北"
+                    }
+                    1 -> {
+                        type = "2"
+                        typeName = "中"
+                    }
+                    2 -> {
+                        type = "3"
+                        typeName = "南"
+                    }
+                }
+                getSiteInfo()
+            }
+
+        })
     }
 
     private fun getSiteType() {
@@ -245,6 +276,8 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         btnPre = findViewById<Button>(R.id.btnPre)
         btnNext = findViewById<Button>(R.id.btnNext)
+
+        tabs = findViewById<TabLayout>(R.id.tabs)
     }
 
     private fun getSiteInfo() {
