@@ -333,45 +333,45 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         images.forEachIndexed lit_images@{ index, imageButton ->
 
             imageButton.setImageResource(R.drawable.hi_blank)
-            imageButton.setBackgroundResource(R.color.hiblank_background_color)
+            imageButton.setBackgroundResource(R.drawable.hiblank_background_color)
 
             if (index > listRange.count() - 1) return@lit_images
             when (listRange[index].nSHI) {
                 1 -> {
                     imageButton.setImageResource(R.drawable.hi_good)
-                    imageButton.setBackgroundResource(R.color.higood_background_color)
+                    imageButton.setBackgroundResource(R.drawable.higood_background_color)
                 }
                 2 -> {
                     imageButton.setImageResource(R.drawable.hi_good_new)
-                    imageButton.setBackgroundResource(R.color.higood_background_color)
+                    imageButton.setBackgroundResource(R.drawable.higood_background_color)
                 }
                 -3 -> {
                     imageButton.setImageResource(R.drawable.hi_alert)
-                    imageButton.setBackgroundResource(R.color.hialert_background_color)
+                    imageButton.setBackgroundResource(R.drawable.hialert_background_color)
                 }
                 -4 -> {
                     imageButton.setImageResource(R.drawable.hi_alert_new)
-                    imageButton.setBackgroundResource(R.color.hialert_background_color)
+                    imageButton.setBackgroundResource(R.drawable.hialert_background_color)
                 }
                 -5 -> {
                     imageButton.setImageResource(R.drawable.hi_bad)
-                    imageButton.setBackgroundResource(R.color.hibad_background_color)
+                    imageButton.setBackgroundResource(R.drawable.hibad_background_color)
                 }
                 -6 -> {
                     imageButton.setImageResource(R.drawable.hi_bad_new)
-                    imageButton.setBackgroundResource(R.color.hibad_background_color)
+                    imageButton.setBackgroundResource(R.drawable.hibad_background_color)
                 }
                 0 -> {
                     imageButton.setImageResource(R.drawable.hi_skip)
-                    imageButton.setBackgroundResource(R.color.hiskip_background_color)
+                    imageButton.setBackgroundResource(R.drawable.hiskip_background_color)
                 }
                 -1 -> {
                     imageButton.setImageResource(R.drawable.hi_err)
-                    imageButton.setBackgroundResource(R.color.hierr_background_color)
+                    imageButton.setBackgroundResource(R.drawable.hierr_background_color)
                 }
                 3 -> {
                     imageButton.setImageResource(R.drawable.hi_sleep)
-                    imageButton.setBackgroundResource(R.color.hisleep_background_color)
+                    imageButton.setBackgroundResource(R.drawable.hisleep_background_color)
                 }
             }
         }

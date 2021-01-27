@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -18,21 +17,21 @@
 
             <LinearLayout
                 android:id="@+id/r11"
-                android:layout_height="match_parent"
                 android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_column="0"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/r11_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/hi01"
-                    android:background="@color/higood_background_color"></ImageButton>
+                    android:background="@drawable/higood_background_color"
+                    app:srcCompat="@drawable/hi01"></ImageButton>
 
                 <TextView
                     android:id="@+id/r11_tv"
@@ -45,22 +44,22 @@
 
             <LinearLayout
                 android:id="@+id/r12"
-                android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:layout_column="1"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/border">
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/r12_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/hi01"
-                    android:background="@color/higood_background_color"></ImageButton>
+                    android:background="@drawable/higood_background_color"
+                    app:srcCompat="@drawable/hi01"></ImageButton>
 
                 <TextView
                     android:id="@+id/r12_tv"
@@ -80,21 +79,21 @@
 
             <LinearLayout
                 android:id="@+id/r21"
-                android:layout_height="match_parent"
                 android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_column="0"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/r21_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/hi01"
-                    android:background="@color/higood_background_color"></ImageButton>
+                    android:background="@drawable/higood_background_color"
+                    app:srcCompat="@drawable/hi01"></ImageButton>
 
                 <TextView
                     android:id="@+id/r21_tv"
@@ -107,22 +106,22 @@
 
             <LinearLayout
                 android:id="@+id/r22"
-                android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:layout_column="1"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/border">
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/r22_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/hi01"
-                    android:background="@color/higood_background_color"></ImageButton>
+                    android:background="@drawable/higood_background_color"
+                    app:srcCompat="@drawable/hi01"></ImageButton>
 
                 <TextView
                     android:id="@+id/r22_tv"
@@ -142,21 +141,21 @@
 
             <LinearLayout
                 android:id="@+id/r31"
-                android:layout_height="match_parent"
                 android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_column="0"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/r31_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/hi01"
-                    android:background="@color/higood_background_color"></ImageButton>
+                    android:background="@drawable/higood_background_color"
+                    app:srcCompat="@drawable/hi01"></ImageButton>
 
                 <TextView
                     android:id="@+id/r31_tv"
@@ -169,22 +168,22 @@
 
             <LinearLayout
                 android:id="@+id/r32"
-                android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:layout_column="1"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/border">
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/r32_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/hi01"
-                    android:background="@color/higood_background_color"></ImageButton>
+                    android:background="@drawable/higood_background_color"
+                    app:srcCompat="@drawable/hi01"></ImageButton>
 
                 <TextView
                     android:id="@+id/r32_tv"
@@ -204,21 +203,21 @@
 
             <LinearLayout
                 android:id="@+id/r41"
-                android:layout_height="match_parent"
                 android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_column="0"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/r41_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/hi01"
-                    android:background="@color/higood_background_color"></ImageButton>
+                    android:background="@drawable/higood_background_color"
+                    app:srcCompat="@drawable/hi01"></ImageButton>
 
                 <TextView
                     android:id="@+id/r41_tv"
@@ -231,22 +230,22 @@
 
             <LinearLayout
                 android:id="@+id/r42"
-                android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:layout_column="1"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/border">
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/r42_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/hi01"
-                    android:background="@color/higood_background_color"></ImageButton>
+                    android:background="@drawable/higood_background_color"
+                    app:srcCompat="@drawable/hi01"></ImageButton>
 
                 <TextView
                     android:id="@+id/r42_tv"
@@ -266,21 +265,21 @@
 
             <LinearLayout
                 android:id="@+id/r51"
-                android:layout_height="match_parent"
                 android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_column="0"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/border">
+                android:background="@drawable/border"
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/r51_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/hi01"
-                    android:background="@color/higood_background_color"></ImageButton>
+                    android:background="@drawable/higood_background_color"
+                    app:srcCompat="@drawable/hi01"></ImageButton>
 
                 <TextView
                     android:id="@+id/r51_tv"
@@ -293,22 +292,22 @@
 
             <LinearLayout
                 android:id="@+id/r52"
-                android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:layout_column="1"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:orientation="vertical"
-                android:background="@drawable/border">
+                android:layout_weight="1"
+                android:background="@drawable/border"
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/r52_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/hi01"
-                    android:background="@color/higood_background_color"></ImageButton>
+                    android:background="@drawable/higood_background_color"
+                    app:srcCompat="@drawable/hi01"></ImageButton>
 
                 <TextView
                     android:id="@+id/r52_tv"
@@ -342,11 +341,11 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/tableLayout"
         android:background="@color/purple_500"
-        app:tabTextColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/tableLayout"
+        app:tabIndicatorColor="#ff00ff"
         app:tabTextAppearance="@style/MyCustomTabText"
-        app:tabIndicatorColor="#ff00ff">
+        app:tabTextColor="@color/white">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -363,7 +362,6 @@
             android:layout_height="wrap_content"
             android:text="南"></com.google.android.material.tabs.TabItem>
     </com.google.android.material.tabs.TabLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
