@@ -98,6 +98,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             nextPage()
         }
 
+        /* 跟ScrollView滑動事件衝到，滑動行為怪怪的
         // 複寫每一個ImageButton左移右移的事件
         images.forEachIndexed { index, imageButton ->
             imageButton.setOnTouchListener(object : View.OnTouchListener {
@@ -131,6 +132,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 }
             })
         }
+        */
 
         tvs.forEach { textView ->
             textView.text = "下載中..."
@@ -167,6 +169,8 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     private fun getSiteType() {
         // 取得北中南東的位置
+        // 原先Login切到Taiwan, 現在改Login切到Site
+        /*
         intent?.extras?.let {
             type = it.getString("sSiteType").toString()
             when(type) {
@@ -175,6 +179,9 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 "3" -> typeName = "南"
             }
         }
+        */
+
+        typeName = "北"
     }
 
     private fun nextPage() {
@@ -413,6 +420,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         val beginY = event1.y
         val endY = event2.y
 
+        /* 跟ScrollView的上下滑事件衝到，滑到行為怪怪的
         if (beginX - endX > minMove && abs(velocityX) > minVelocity) {
             nextPage()
         } else if (endX - beginX > minMove && Math.abs(velocityX) > minVelocity) {
@@ -422,6 +430,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         } else if (endY - beginY > minMove && Math.abs(velocityY) > minVelocity) {
             //println("下滑")
         }
+         */
         return true
     }
 
