@@ -134,6 +134,12 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         }
         */
 
+        images.forEachIndexed { index, imageButton ->
+            imageButton.setOnClickListener {
+                startActivity(Intent(this@SiteActivity, SiteFuncActivity::class.java))
+            }
+        }
+
         tvs.forEach { textView ->
             textView.text = "下載中..."
         }

@@ -1,18 +1,14 @@
 package tw.com.motech.i_inverter
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 
-class MainActivity : AppCompatActivity() {
+class SiteMoreFuncActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_site_more_func)
 
         var fun1 = findViewById<CardView>(R.id.fun1)
         fun1.setOnClickListener{
