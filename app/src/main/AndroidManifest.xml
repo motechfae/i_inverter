@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.I_inverter">
+        <activity android:name=".SiteListAdapterActivity"></activity>
+        <activity android:name=".SiteListActivity" />
         <activity android:name=".SiteFuncActivity">
             android:parentActivityName=".SiteActivity">
             <meta-data

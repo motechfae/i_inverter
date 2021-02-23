@@ -16,7 +16,7 @@ import java.io.IOException
 import kotlin.math.abs
 
 private val client = OkHttpClient()
-
+/*
 class SiteResult(
     val sSiteType: String,
     val nSort: Int,
@@ -26,7 +26,7 @@ class SiteResult(
     val nDMY: Double,
     val nPR: Double
 )
-
+*/
 class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     private lateinit var r11: LinearLayout

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import kotlinx.android.synthetic.main.fragment_a.view.*
 import tw.com.motech.i_inverter.R
 
 class FragmentA : Fragment() {
@@ -17,6 +19,15 @@ class FragmentA : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_a, container, false)
+        val v = inflater.inflate(R.layout.fragment_a, container, false)
+        v.txtfrag1.setText("Fragment A {$sSiteNo_GLB}")
+        v.txtfrag2.setText("Hello A {$sSite_Name_GLB}")
+        /*
+        val txt1:TextView = v.findViewById(R.id.txtfrag1) as TextView
+        val txt2:TextView = v.findViewById(R.id.txtfrag2) as TextView
+        txt1.setText("Fragment A {$sSiteNo_GLB}")
+        txt2.setText("Hello A {$sSite_Name_GLB}")
+         */
+        return v
     }
 }

@@ -7,11 +7,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/txtfrag1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Fragment A" />
 
     <TextView
+        android:id="@+id/txtfrag2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello A"
