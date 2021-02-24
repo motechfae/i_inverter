@@ -42,21 +42,11 @@ class FragmentA : Fragment() {
             .animationDuration(0)
             .backgroundColor("#FFFFFF")
             .dataLabelsEnabled(true)
-            .categories(arrayOf("一月","二月","三月"))
-            .series(arrayOf(
-                AASeriesElement()
-                    .name("發電量1")
-                    .data(arrayOf(7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6)),
-                AASeriesElement()
-                    .name("發電量2")
-                    .type(AAChartType.Spline)
-                    .data(arrayOf(0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5))
-            )
-            )
+            .categories(arrayOf("一月","二月","三月","四月","五月"))
+
 
         var aaOptions = aaChartModel.aa_toAAOptions()
-
-        val aaYAxis1 = AAYAxis()
+        val aaYAxis0 = AAYAxis()
             .visible(true)
             .labels(AALabels()
                 .enabled(true)//设置 y 轴是否显示数字
@@ -66,20 +56,45 @@ class FragmentA : Fragment() {
                     .fontWeight(AAChartFontWeightType.Bold)//yAxis Label font weight
                 ))
             .gridLineWidth(0f)// Y 轴网格线宽度
-            .title(AATitle()
-                .text("發電量"))//Y 轴标题
+            .title(AATitle().text("發電量"))//Y 轴标题
+            .min(0f)
+
+        val aaYAxis1 = AAYAxis()
+            .visible(true)
+            .labels(AALabels()
+                .enabled(true)//设置 y 轴是否显示数字
+            )
+            .opposite(true)
+            .title(AATitle().text("日照量"))
+            .min(0f)
 
         val aaYAxis2 = AAYAxis()
             .visible(true)
-            .opposite(true)
-            .title(AATitle().text("日照量"))
-
-        val aaYAxis3 = AAYAxis()
-            .visible(true)
+            .labels(AALabels()
+                .enabled(true)//设置 y 轴是否显示数字
+            )
             .opposite(true)
             .title(AATitle().text("溫度"))
+            .min(0f)
 
-        aaOptions.yAxisArray(arrayOf(aaYAxis1, aaYAxis2, aaYAxis3))
+        aaOptions.yAxisArray(arrayOf(aaYAxis0, aaYAxis1, aaYAxis2))
+            .series(arrayOf(
+                AASeriesElement()
+                    .name("發電量1")
+                    .data(arrayOf(35.4, 175.3, 285.9, 173.2, 20.5))
+                    .yAxis(0),
+                AASeriesElement()
+                    .name("日照量1")
+                    .type(AAChartType.Spline)
+                    .data(arrayOf(105, 500, 950, 450, 90))
+                    .yAxis(1),
+                AASeriesElement()
+                    .name("溫度1")
+                    .type(AAChartType.Spline)
+                    .data(arrayOf(25, 28, 31, 27, 24))
+                    .yAxis(2)
+            )
+            )
 
         v.aa_chart_view.aa_drawChartWithChartModel(aaChartModel)
         v.aa_chart_view.aa_drawChartWithChartOptions(aaOptions)

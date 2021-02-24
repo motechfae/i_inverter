@@ -14,7 +14,7 @@
         android:ems="10"
         android:hint="帳號"
         android:inputType="textPersonName"
-        android:text=""
+        android:text="admin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -26,6 +26,7 @@
         android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="密碼"
+        android:text="iinverter"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
 
