@@ -6,10 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
-import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
-import com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
-import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
+import com.github.aachartmodel.aainfographics.aachartcreator.*
+import com.github.aachartmodel.aainfographics.aaoptionsmodel.AATitle
 import kotlinx.android.synthetic.main.fragment_a.view.*
 import tw.com.motech.i_inverter.R
 
@@ -37,19 +35,27 @@ class FragmentA : Fragment() {
             .chartType(AAChartType.Area)
             .title(sSite_Name_GLB)
             .subtitle(sSiteNo_GLB)
+            .animationType(AAChartAnimationType.EaseInOutExpo)
+            .animationDuration(0)
             .backgroundColor("#FFFFFF")
             .dataLabelsEnabled(true)
+            .categories(arrayOf("一月","二月","三月"))
             .series(arrayOf(
                 AASeriesElement()
                     .name("發電量1")
                     .data(arrayOf(7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6)),
                 AASeriesElement()
                     .name("發電量2")
+                    .type(AAChartType.Spline)
                     .data(arrayOf(0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5))
             )
             )
 
+        var aaOptions = aaChartModel.aa_toAAOptions()
+        aaOptions.title = AATitle().text("1111")
+
         v.aa_chart_view.aa_drawChartWithChartModel(aaChartModel)
+        v.aa_chart_view.aa_drawChartWithChartOptions(aaOptions)
 
         return v
     }
