@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit
 class SiteListActivity : AppCompatActivity() {
     private lateinit var adapter: SiteListAdapterActivity
     private lateinit var siteresults: List<SiteResult>
+    private lateinit var siteresults_all: List<SiteResult>
     private var type = "1"
     private var typeName = "北"
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +59,7 @@ class SiteListActivity : AppCompatActivity() {
                         typeName = "南"
                     }
                 }
-                getSiteInfo()
+                getPartSiteInfo()
             }
 
         })
@@ -87,14 +88,20 @@ class SiteListActivity : AppCompatActivity() {
             val response = client.newCall(request).execute()
             val responsestr = response.body?.string()
 
-            siteresults = Gson().fromJson(responsestr, Array<SiteResult>::class.java).toList()
-            siteresults = siteresults.filter { it.sSiteType == type }
+            siteresults_all = Gson().fromJson(responsestr, Array<SiteResult>::class.java).toList()
+            siteresults = siteresults_all.filter { it.sSiteType == type }
 
             runOnUiThread {
                 showRecycleView()
                 setBarTitle()
             }
         }.start()
+    }
+
+    private fun getPartSiteInfo(){
+        siteresults = siteresults_all.filter { it.sSiteType == type }
+        showRecycleView()
+        setBarTitle()
     }
 
     private fun  showRecycleView(){
