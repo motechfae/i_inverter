@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.github.aachartmodel.aainfographics.aachartcreator.*
+import com.github.aachartmodel.aainfographics.aaoptionsmodel.AALabels
+import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAStyle
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.AATitle
+import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAYAxis
 import kotlinx.android.synthetic.main.fragment_a.view.*
 import tw.com.motech.i_inverter.R
 
@@ -52,7 +55,31 @@ class FragmentA : Fragment() {
             )
 
         var aaOptions = aaChartModel.aa_toAAOptions()
-        aaOptions.title = AATitle().text("1111")
+
+        val aaYAxis1 = AAYAxis()
+            .visible(true)
+            .labels(AALabels()
+                .enabled(true)//设置 y 轴是否显示数字
+                .style(AAStyle()
+                    .color("#ff0000")//yAxis Label font color
+                    .fontSize(12f)//yAxis Label font size
+                    .fontWeight(AAChartFontWeightType.Bold)//yAxis Label font weight
+                ))
+            .gridLineWidth(0f)// Y 轴网格线宽度
+            .title(AATitle()
+                .text("發電量"))//Y 轴标题
+
+        val aaYAxis2 = AAYAxis()
+            .visible(true)
+            .opposite(true)
+            .title(AATitle().text("日照量"))
+
+        val aaYAxis3 = AAYAxis()
+            .visible(true)
+            .opposite(true)
+            .title(AATitle().text("溫度"))
+
+        aaOptions.yAxisArray(arrayOf(aaYAxis1, aaYAxis2, aaYAxis3))
 
         v.aa_chart_view.aa_drawChartWithChartModel(aaChartModel)
         v.aa_chart_view.aa_drawChartWithChartOptions(aaOptions)
