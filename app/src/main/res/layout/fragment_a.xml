@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".FragmentA">
 
+    <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
+        android:id="@+id/aa_chart_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.github.aachartmodel.aainfographics.aachartcreator.AAChartView>
+
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/txtfrag1"
