@@ -5,6 +5,7 @@ var LoginSP : String = "USER_LOGIN"
 var UserName : String = "XX"
 var sSiteNo_GLB: String = "MOT001"
 var sSite_Name_GLB: String = "茂迪五廠"
+var sZoneNo_GLB: String = "F5b1zone"
 
 
 data class SiteResult(
@@ -15,4 +16,9 @@ data class SiteResult(
     val nSHI: Int,
     val nDMY: Double,
     val nPR: Double
+)
+
+data class ZoneResult(
+    val sZoneNo: String,
+    val sMemo: String
 )

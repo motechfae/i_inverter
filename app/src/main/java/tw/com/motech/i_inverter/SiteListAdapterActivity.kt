@@ -1,14 +1,21 @@
 package tw.com.motech.i_inverter
 
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import okhttp3.*
+import java.util.concurrent.TimeUnit
 
-class SiteListAdapterActivity(private val siteresults:List<SiteResult>) : RecyclerView.Adapter<SiteListAdapterActivity.ViewHolder>(), Filterable {
+
+class SiteListAdapterActivity(private val siteresults: List<SiteResult>) : RecyclerView.Adapter<SiteListAdapterActivity.ViewHolder>(), Filterable {
     var siteresultsFilterList = emptyList<SiteResult>()
+    var zoneresult = emptyList<ZoneResult>()
 
     init {
         siteresultsFilterList = siteresults
@@ -21,7 +28,11 @@ class SiteListAdapterActivity(private val siteresults:List<SiteResult>) : Recycl
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, position: Int): ViewHolder {
-        val v = LayoutInflater.from(viewGroup.context).inflate(R.layout.activity_site_list_adapter_row, viewGroup,false)
+        val v = LayoutInflater.from(viewGroup.context).inflate(
+            R.layout.activity_site_list_adapter_row,
+            viewGroup,
+            false
+        )
         return  ViewHolder(v)
     }
 
@@ -74,7 +85,15 @@ class SiteListAdapterActivity(private val siteresults:List<SiteResult>) : Recycl
             sSiteNo_GLB = siteresultsFilterList[position].sSiteNo
             sSite_Name_GLB = siteresultsFilterList[position].sSite_Name
             //Toast.makeText(holder.itemView.context, "切到${siteresultsFilterList[position].sSiteNo}案場", Toast.LENGTH_SHORT).show()
-            holder.itemView.context.startActivity(Intent(holder.itemView.context, SiteFuncActivity::class.java))
+            getZoneInfo(holder)
+            /*
+            holder.itemView.context.startActivity(
+                Intent(
+                    holder.itemView.context,
+                    SiteFuncActivity::class.java
+                )
+            )
+             */
         }
     }
 
@@ -85,7 +104,9 @@ class SiteListAdapterActivity(private val siteresults:List<SiteResult>) : Recycl
                 if (charSearch.isEmpty()) {
                     siteresultsFilterList = siteresults
                 } else {
-                    var resultList = siteresultsFilterList.filter { it.sSite_Name.contains(charSearch) }
+                    var resultList = siteresultsFilterList.filter { it.sSite_Name.contains(
+                        charSearch
+                    ) }
                     siteresultsFilterList = resultList
                 }
                 val filterResults = FilterResults()
@@ -101,5 +122,37 @@ class SiteListAdapterActivity(private val siteresults:List<SiteResult>) : Recycl
             }
 
         }
+    }
+
+    private fun getZoneInfo(holder2: ViewHolder){
+        Thread(){
+            val client = OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .build()
+
+            val requestBody = FormBody.Builder()
+                .add("FunCode", "V01_MySolarQerrcode06")
+                .add("FunValues", "'${UserName}','${sSiteNo_GLB}'")
+                .build()
+
+            val request = Request.Builder().url(BaseUrl)
+                .post(requestBody).build()
+
+            val response = client.newCall(request).execute()
+            val responsestr = response.body?.string()
+
+            zoneresult  = Gson().fromJson(responsestr, Array<ZoneResult>::class.java).toList()
+            Handler(Looper.getMainLooper()).post(Runnable {
+                sZoneNo_GLB = zoneresult[0]?.sZoneNo
+                holder2.itemView.context.startActivity(
+                    Intent(
+                        holder2.itemView.context,
+                        SiteFuncActivity::class.java
+                    )
+                )
+            })
+        }.start()
     }
 }
