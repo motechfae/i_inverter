@@ -22,3 +22,10 @@ data class ZoneResult(
     val sZoneNo: String,
     val sMemo: String
 )
+
+data class SiteData(
+    val sDataKey: String,
+    val nEa: Double,
+    val nHi: Float,
+    val nTmp: Float
+)
