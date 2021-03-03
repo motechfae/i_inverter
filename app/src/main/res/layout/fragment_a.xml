@@ -12,7 +12,8 @@
 
     </com.github.aachartmodel.aainfographics.aachartcreator.AAChartView>
 
-    <!-- TODO: Update blank fragment layout
+    <!-- TODO: Update blank fragment layout -->
+    <!--
     <TextView
         android:id="@+id/txtfrag1"
         android:layout_width="wrap_content"
@@ -25,6 +26,6 @@
         android:layout_height="wrap_content"
         android:text="Hello A"
         android:layout_gravity="bottom"/>
-        -->
+     -->
 
 </FrameLayout>
