@@ -87,10 +87,6 @@ class FragmentA : Fragment() {
     }
 
     private fun showAAChart() {
-        val siteX: Array<String>
-        val SiteY1: String //發電
-        val SiteY2: String //日照
-        val SiteY3: String //溫度
         val aaChartModel : AAChartModel = AAChartModel()
             .chartType(AAChartType.Area)
             .title(sSite_Name_GLB)
@@ -99,7 +95,7 @@ class FragmentA : Fragment() {
             .animationDuration(0)
             .backgroundColor("#FFFFFF")
             .dataLabelsEnabled(true)
-            .categories(sitedata.map { it.sDataKey }.toTypedArray())
+            .categories(sitedata.map { it.sDataKey.substring(8..9) + ":" + it.sDataKey.substring(10..11) }.toTypedArray())
 
 
         var aaOptions = aaChartModel.aa_toAAOptions()
