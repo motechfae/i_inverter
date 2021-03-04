@@ -7,10 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.github.aachartmodel.aainfographics.aachartcreator.*
-import com.github.aachartmodel.aainfographics.aaoptionsmodel.AALabels
-import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAStyle
-import com.github.aachartmodel.aainfographics.aaoptionsmodel.AATitle
-import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAYAxis
+import com.github.aachartmodel.aainfographics.aaoptionsmodel.*
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_a.view.*
 import okhttp3.FormBody
@@ -23,6 +20,7 @@ import java.util.concurrent.TimeUnit
 
 class FragmentA : Fragment() {
     var sitedata = emptyList<SiteData>()
+    var currentDateAndTime: String = ""
     private lateinit var v:View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +62,7 @@ class FragmentA : Fragment() {
                 .writeTimeout(30, TimeUnit.SECONDS)
                 .build()
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-            val currentDateAndTime: String = simpleDateFormat.format(Date())
+            currentDateAndTime = simpleDateFormat.format(Date())
             val dateStart: String = currentDateAndTime + " 05:00"
             val dateEnd: String = currentDateAndTime + " 18:59"
 
@@ -89,8 +87,8 @@ class FragmentA : Fragment() {
     private fun showAAChart() {
         val aaChartModel : AAChartModel = AAChartModel()
             .chartType(AAChartType.Area)
-            .title(sSite_Name_GLB)
-            .subtitle(sSiteNo_GLB)
+            .title(sSite_Name_GLB + " 發電功率")
+            .subtitle(currentDateAndTime + " 日")
             .animationType(AAChartAnimationType.EaseInOutExpo)
             .animationDuration(0)
             .backgroundColor("#FFFFFF")
@@ -129,6 +127,32 @@ class FragmentA : Fragment() {
             .opposite(true)
             .title(AATitle().text("溫度"))
             .min(0f)
+/*
+        val aaTooltip = AATooltip()
+            .useHTML(true)
+            .formatter(
+                """
+function () {
+        return ' 🌕 🌖 🌗 🌘 🌑 🌒 🌓 🌔 <br/> '
+        + ' Support JavaScript Function Just Right Now !!! <br/> '
+        + ' The Gold Price For <b>2020 '
+        +  this.x
+        + ' </b> Is <b> '
+        +  this.y
+        + ' </b> Dollars ';
+        }
+             """.trimIndent()
+            )
+            .valueDecimals(2)//設置取值精確到小數點後幾位//設置取值精確到小數點後幾位
+            .backgroundColor("#000000")
+            .borderColor("#000000")
+            .style(
+                AAStyle()
+                    .color("#FFD700")
+                    .fontSize(12f)
+            )
+
+ */
 
         aaOptions.yAxisArray(arrayOf(aaYAxis0, aaYAxis1, aaYAxis2))
             .series(arrayOf(
@@ -148,6 +172,9 @@ class FragmentA : Fragment() {
                     .yAxis(2)
             )
             )
+                /*
+            .tooltip(aaTooltip)
+                 */
 
         v.aa_chart_view.aa_drawChartWithChartModel(aaChartModel)
         v.aa_chart_view.aa_drawChartWithChartOptions(aaOptions)
