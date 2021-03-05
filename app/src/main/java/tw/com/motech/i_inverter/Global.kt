@@ -29,3 +29,13 @@ data class SiteData(
     val nHi: Float,
     val nTmp: Float
 )
+
+data class LastSiteData(
+    val sDataKey: String,
+    val sSiteNo: String,
+    val nEa: Double,
+    val nHi: Float,
+    val nTmp: Float,
+    val nTEa: Double,
+    val nEaMax: Double
+)

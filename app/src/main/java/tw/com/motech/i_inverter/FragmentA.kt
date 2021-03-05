@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.github.aachartmodel.aainfographics.aachartcreator.*
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.*
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.fragment_a.*
 import kotlinx.android.synthetic.main.fragment_a.view.*
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
@@ -20,7 +21,9 @@ import java.util.concurrent.TimeUnit
 
 class FragmentA : Fragment() {
     var sitedata = emptyList<SiteData>()
+    var lastsitedata = emptyList<LastSiteData>()
     var currentDateAndTime: String = ""
+    var currentDateNoDash: String = ""
     private lateinit var v:View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +54,7 @@ class FragmentA : Fragment() {
         txt2.setText("Hello A {$sSite_Name_GLB}")
          */
         getSiteData()
+        getLastSiteData()
         return v
     }
 
@@ -80,6 +84,39 @@ class FragmentA : Fragment() {
             sitedata = Gson().fromJson(responsestr, Array<SiteData>::class.java).toList()
             getActivity()?.runOnUiThread {
                 showAAChart()
+            }
+        }.start()
+    }
+
+    private fun getLastSiteData() {
+        Thread(){
+            val client = OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .build()
+            val simpleDateFormat = SimpleDateFormat("yyyyMMdd")
+            currentDateNoDash = simpleDateFormat.format(Date())
+
+
+            val requestBody = FormBody.Builder()
+                .add("FunCode", "V04_AppToday01")
+                .add("FunValues", "${sSiteNo_GLB},${sZoneNo_GLB},${currentDateNoDash}")
+                .build()
+
+            val request = Request.Builder().url(BaseUrl)
+                .post(requestBody).build()
+
+            val response = client.newCall(request).execute()
+            val responsestr = response.body?.string()
+
+            lastsitedata = Gson().fromJson(responsestr, Array<LastSiteData>::class.java).toList()
+            getActivity()?.runOnUiThread {
+                v.txtAcum.setText("今日累積:${lastsitedata[0].nTEa}kWh")
+                v.txtMaxEa.setText("今日最高:${lastsitedata[0].nEaMax}kw")
+                v.txtRealEa.setText("及時發電功率:${lastsitedata[0].nEa}kw")
+                v.txtHi.setText("實體日照:${lastsitedata[0].nHi}W/m2")
+                v.txtTmp.setText("模組溫度:${lastsitedata[0].nTmp}℃")
             }
         }.start()
     }

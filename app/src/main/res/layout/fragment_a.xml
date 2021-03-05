@@ -15,39 +15,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:alpha="0.8"
         android:background="@color/bg_yellow"
         android:gravity="top|left"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/txtAcum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="今日累積:1278.2kWh" />
+            android:text="" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/txtMaxEa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="今日最高:264.24kw" />
+            android:text="" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/txtRealEa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="及時發電功率:48kw" />
+            android:text="" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/txtHi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="實體日照:80W/m2" />
+            android:text="" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/txtTmp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="模組溫度:18℃" />
+            android:text="" />
 
     </LinearLayout>
 
