@@ -1,5 +1,6 @@
 package tw.com.motech.i_inverter
 
+
 val BaseUrl : String = "https://i-inverter.motech.com.tw/vUserApisvr/api/values"
 var LoginSP : String = "USER_LOGIN"
 var UserName : String = "XX"
@@ -38,4 +39,16 @@ data class LastSiteData(
     val nTmp: Float,
     val nTEa: Double,
     val nEaMax: Double
+)
+
+data class InverterResult(
+    val sNo: String,
+    val sDataKey: String,
+    val sSNID: String,
+    val nRS485ID: Int,
+    val nEa: Double,
+    val sErrCode: String,
+    val ConChk: Int,
+    val dCreat_Time: String,
+    val sInvModel: String
 )

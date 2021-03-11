@@ -10,9 +10,9 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
-    <string name="text_label_1">頁面1</string>
-    <string name="text_label_2">頁面2</string>
-    <string name="text_label_3">頁面3</string>
+    <string name="text_label_1">Site</string>
+    <string name="text_label_2">Inverter</string>
+    <string name="text_label_3">String</string>
     <string name="text_label_4">頁面4</string>
     <string name="text_label_5">頁面5</string>
 </resources>

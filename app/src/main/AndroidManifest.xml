@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_iinvertericon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.I_inverter">
-        <activity android:name=".SiteListAdapterActivity"
+        <activity android:name=".InverterListAdapterActivity"></activity>
+        <activity
+            android:name=".SiteListAdapterActivity"
             tools:ignore="Instantiatable" />
         <activity android:name=".SiteListActivity" />
         <activity android:name=".SiteFuncActivity">
