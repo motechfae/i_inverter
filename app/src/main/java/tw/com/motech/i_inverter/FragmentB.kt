@@ -52,7 +52,9 @@ class FragmentB : Fragment() {
 
             inverterresults = Gson().fromJson(responsestr, Array<InverterResult>::class.java).toList()
             getActivity()?.runOnUiThread {
-                showRecycleView()
+                if(inverterresults.count() > 0) {
+                    showRecycleView()
+                }
             }
         }.start()
     }

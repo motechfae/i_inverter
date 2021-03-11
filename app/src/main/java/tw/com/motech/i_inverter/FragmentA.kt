@@ -83,7 +83,9 @@ class FragmentA : Fragment() {
 
             sitedata = Gson().fromJson(responsestr, Array<SiteData>::class.java).toList()
             getActivity()?.runOnUiThread {
-                showAAChart()
+                if(sitedata.count() > 0) {
+                    showAAChart()
+                }
             }
         }.start()
     }
@@ -112,11 +114,13 @@ class FragmentA : Fragment() {
 
             lastsitedata = Gson().fromJson(responsestr, Array<LastSiteData>::class.java).toList()
             getActivity()?.runOnUiThread {
-                v.txtAcum.setText("今日累積:${lastsitedata[0].nTEa}kWh")
-                v.txtMaxEa.setText("今日最高:${lastsitedata[0].nEaMax}kw")
-                v.txtRealEa.setText("及時發電功率:${lastsitedata[0].nEa}kw")
-                v.txtHi.setText("實體日照:${lastsitedata[0].nHi}W/m2")
-                v.txtTmp.setText("模組溫度:${lastsitedata[0].nTmp}℃")
+                if(lastsitedata.count() > 0) {
+                    v.txtAcum.setText("今日累積:${lastsitedata[0].nTEa}kWh")
+                    v.txtMaxEa.setText("今日最高:${lastsitedata[0].nEaMax}kw")
+                    v.txtRealEa.setText("及時發電功率:${lastsitedata[0].nEa}kw")
+                    v.txtHi.setText("實體日照:${lastsitedata[0].nHi}W/m2")
+                    v.txtTmp.setText("模組溫度:${lastsitedata[0].nTmp}℃")
+                }
             }
         }.start()
     }
