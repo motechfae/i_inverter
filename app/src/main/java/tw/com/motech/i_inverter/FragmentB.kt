@@ -41,7 +41,7 @@ class FragmentB : Fragment() {
 
             val requestBody = FormBody.Builder()
                 .add("FunCode", "V01_MySolarToday08")
-                .add("FunValues", "'${sSiteNo_GLB}','${sZoneNo_GLB}'")
+                .add("FunValues", "'${sSiteNo_GLB}';'${sZoneNo_GLB}'")
                 .build()
 
             val request = Request.Builder().url(BaseUrl)

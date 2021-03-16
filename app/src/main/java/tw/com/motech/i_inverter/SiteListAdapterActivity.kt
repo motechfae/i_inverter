@@ -134,7 +134,7 @@ class SiteListAdapterActivity(private val siteresults: List<SiteResult>) : Recyc
 
             val requestBody = FormBody.Builder()
                 .add("FunCode", "V01_MySolarQerrcode06")
-                .add("FunValues", "'${UserName}','${sSiteNo_GLB}'")
+                .add("FunValues", "'${UserName}';'${sSiteNo_GLB}'")
                 .build()
 
             val request = Request.Builder().url(BaseUrl)

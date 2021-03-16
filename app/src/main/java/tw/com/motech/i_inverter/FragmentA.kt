@@ -72,7 +72,7 @@ class FragmentA : Fragment() {
 
             val requestBody = FormBody.Builder()
                 .add("FunCode", "V01_SettingQuerypara01")
-                .add("FunValues", "'${sSiteNo_GLB}','${sZoneNo_GLB}','${dateStart}','${dateEnd}'")
+                .add("FunValues", "'${sSiteNo_GLB}';'${sZoneNo_GLB}';'${dateStart}';'${dateEnd}'")
                 .build()
 
             val request = Request.Builder().url(BaseUrl)
@@ -103,7 +103,7 @@ class FragmentA : Fragment() {
 
             val requestBody = FormBody.Builder()
                 .add("FunCode", "V04_AppToday01")
-                .add("FunValues", "${sSiteNo_GLB},${sZoneNo_GLB},${currentDateNoDash}")
+                .add("FunValues", "${sSiteNo_GLB};${sZoneNo_GLB};${currentDateNoDash}")
                 .build()
 
             val request = Request.Builder().url(BaseUrl)

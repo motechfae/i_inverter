@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
     private fun postLogin(username: String?, password: String?) {
         val formBody = FormBody.Builder()
             .add("FunCode", "V01_Login01")
-            .add("FunValues", "'${username}','${password}'")
+            .add("FunValues", "'${username}';'${password}'")
             .build()
         val request = Request.Builder()
             .url(BaseUrl)
