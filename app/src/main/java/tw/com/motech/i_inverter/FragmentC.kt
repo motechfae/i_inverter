@@ -63,7 +63,6 @@ class FragmentC : Fragment() {
             DatePickerDialog(v.context, { _, year, month, day ->
                 run {
                     val d = setDateFormat(year, month, day)
-                    getInverterList(d)
                     v.txtdate.text = d
                 }
             }, year, month, day).show()
@@ -125,10 +124,7 @@ class FragmentC : Fragment() {
         v.invMultiSpinner.setEmptyTitle("找不到 inverter!")
         v.invMultiSpinner.setClearText("關閉")
 
-        // 預設當天日期
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val currentDateAndTime: String = simpleDateFormat.format(Date())
-        getInverterList(currentDateAndTime)
+        getInverterList()
     }
 
     private fun initParaMultiSpinner() {
@@ -139,9 +135,9 @@ class FragmentC : Fragment() {
         getParameterList()
     }
 
-    private fun getInverterList(d: String) {
+    private fun getInverterList() {
         var funCode = "V01_MySolarToday09"
-        var funValues = "'MOT157';'(07)';'${d}'"
+        var funValues = "'$sSiteNo_GLB';'$sZoneNo_GLB'"
 
         val formBody = FormBody.Builder()
             .add("FunCode", funCode)
@@ -204,7 +200,6 @@ class FragmentC : Fragment() {
 
     private fun getParameterList() {
 
-
         val listArray0: MutableList<KeyPairBoolData> = ArrayList()
         for (i in listParameterChkList.indices) {
             val h = KeyPairBoolData()
@@ -247,7 +242,7 @@ class FragmentC : Fragment() {
 
     private fun getSiteData(d: String) {
         var funCode = "V01_SettingQuerypara01"
-        var funValues = "'MOT157';'(07)';'${d} 04:00';'${d} 19:59'"
+        var funValues = "'$sSiteNo_GLB';'$sZoneNo_GLB';'${d} 04:00';'${d} 19:59'"
 
         val formBody = FormBody.Builder()
             .add("FunCode", funCode)
@@ -282,7 +277,7 @@ class FragmentC : Fragment() {
     private fun getInverterStringData() {
 
         var funCode = "V01_MySolarToday03"
-        var funValues = "${selectedPara};'MOT157';'(07)';'${v.txtdate.text.toString()} 04:00';'${v.txtdate.text.toString()} 19:59';${selectedInv}"
+        var funValues = "$selectedPara;'$sSiteNo_GLB';'$sZoneNo_GLB';'${v.txtdate.text.toString()} 04:00';'${v.txtdate.text.toString()} 19:59';${selectedInv}"
 
         println(funValues)
 
