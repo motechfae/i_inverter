@@ -38,6 +38,7 @@ class FragmentC : Fragment() {
 
     private var selectedInv : String = ""
     private var selectedPara : String = ""
+    private lateinit var listSelectedPara : MutableList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -213,6 +214,7 @@ class FragmentC : Fragment() {
             listArray0
         ) { items ->
             selectedPara = ""
+            listSelectedPara = mutableListOf()
             for (i in items.indices) {
                 if (items[i].isSelected) {
                     val p = listParameterChkList.filter {
@@ -228,7 +230,7 @@ class FragmentC : Fragment() {
                         }  else  {
                             selectedPara = selectedPara + "B." + p[0].sName + ", "
                         }
-
+                        listSelectedPara.add(p[0].sName)
                     }
                 }
             }
@@ -367,12 +369,11 @@ class FragmentC : Fragment() {
             .min(0f)
 
         // 如果user選了兩個參數
-        val selectedParameter = listOf("nOVol", "nOCur")
         val aaYAxisArray = mutableListOf<AAYAxis>()
         aaYAxisArray.add(aaYAxis0)
 
         // 有幾個參數就有幾個右邊的Y軸
-        for (i in selectedParameter.indices) {
+        for (i in listSelectedPara.indices) {
             val aaYAxis1 = AAYAxis()
                 .visible(true)
                 .labels(
@@ -380,7 +381,7 @@ class FragmentC : Fragment() {
                         .enabled(true)//设置 y 轴是否显示数字
                 )
                 .opposite(true)
-                .title(AATitle().text(selectedParameter[i]))
+                .title(AATitle().text(listSelectedPara[i]))
                 .min(0f)
 
             aaYAxisArray.add(aaYAxis1)
@@ -396,9 +397,9 @@ class FragmentC : Fragment() {
 
         // 右邊的Y軸資料
         for ((snid, listInv) in mapInvStringData) {
-            for (i in selectedParameter.indices) {
+            for (i in listSelectedPara.indices) {
                 val pData : Array<Any>
-                when(selectedParameter[i]){
+                when(listSelectedPara[i]){
                     "nEa" -> pData = listInv.map { it.nEa }.toTypedArray()
                     "nOVol" -> pData = listInv.map { it.nOVol }.toTypedArray()
                     "nOCur" -> pData = listInv.map { it.nOCur }.toTypedArray()
@@ -420,7 +421,7 @@ class FragmentC : Fragment() {
 
                 val yAxisIndex = i + 1 // (0是代表左邊Y軸，所以從1開始數)
                 val aaSeriesElement = AASeriesElement()
-                    .name(snid + " " + selectedParameter[i])
+                    .name(snid + " " + listSelectedPara[i])
                     .type(AAChartType.Spline)
                     .data(pData)
                     .yAxis(yAxisIndex)
