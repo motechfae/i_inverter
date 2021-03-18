@@ -1,15 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".FragmentC">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
+        android:id="@+id/aa_chart_view2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#E4B5B5"
-        android:text="Fragment C" />
+        android:layout_height="0dp"
+        android:layout_weight="8">
 
-</FrameLayout>
+    </com.github.aachartmodel.aainfographics.aachartcreator.AAChartView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <Button  android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="日期"
+                android:id="@+id/btndate" />
+            <TextView  android:layout_below="@id/btndate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtdate" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+                android:id="@+id/invMultiSpinner"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:hintText="Inv Select" />
+
+            <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+                android:id="@+id/paraMultiSpinner"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:hintText="Para Select" />
+
+            <Button
+                android:id="@+id/btnQuery"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="確認" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

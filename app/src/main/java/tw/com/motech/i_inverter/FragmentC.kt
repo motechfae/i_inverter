@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import tw.com.motech.i_inverter.R
+import kotlinx.android.synthetic.main.fragment_c.*
+import kotlinx.android.synthetic.main.fragment_c.view.*
 
 class FragmentC : Fragment() {
+    private lateinit var v:View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -17,6 +20,8 @@ class FragmentC : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_c, container, false)
+        v = inflater.inflate(R.layout.fragment_c, container, false)
+
+        return v
     }
 }
