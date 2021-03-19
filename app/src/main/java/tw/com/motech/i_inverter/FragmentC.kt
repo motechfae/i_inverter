@@ -342,7 +342,7 @@ class FragmentC : Fragment() {
         // 以SiteData的sDataKey當X軸
         val aaChartModel : AAChartModel = AAChartModel()
             .chartType(AAChartType.Area)
-            .title(" 發電功率")
+            .title("發電功率")
             .subtitle(v.txtdate.text.toString())
             .animationType(AAChartAnimationType.EaseInOutExpo)
             .animationDuration(0)
@@ -350,60 +350,33 @@ class FragmentC : Fragment() {
             .dataLabelsEnabled(true)
             .categories(listSiteData.map { it.sDataKey.substring(8..9) + ":" + it.sDataKey.substring(10..11) }.toTypedArray())
 
-        var aaOptions = aaChartModel.aa_toAAOptions()
-
-        // 左邊Y軸設定 (Site nEa, Inv nEa, Inv nPpv 一定在左邊)
-        val aaYAxis0 = AAYAxis()
-            .visible(true)
-            .labels(
-                AALabels()
-                    .enabled(true)//设置 y 轴是否显示数字
-                    .style(
-                        AAStyle()
-                            .color("#ff0000")//yAxis Label font color
-                            .fontSize(12f)//yAxis Label font size
-                            .fontWeight(AAChartFontWeightType.Bold)//yAxis Label font weight
-                    ))
-            .gridLineWidth(0f)// Y 轴网格线宽度
-            .title(AATitle().text("發電量"))//Y 轴标题
-            .min(0f)
-
-        // 如果user選了兩個參數
+        // 初始化左右Y軸
         val aaYAxisArray = mutableListOf<AAYAxis>()
-        aaYAxisArray.add(aaYAxis0)
+        initLeftYAxis(aaYAxisArray)
+        initRightYAxis(aaYAxisArray)
 
-        // 有幾個參數就有幾個右邊的Y軸
-        for (i in listSelectedPara.indices) {
-            val aaYAxis1 = AAYAxis()
-                .visible(true)
-                .labels(
-                    AALabels()
-                        .enabled(true)//设置 y 轴是否显示数字
-                )
-                .opposite(true)
-                .title(AATitle().text(listSelectedPara[i]))
-                .min(0f)
-
-            aaYAxisArray.add(aaYAxis1)
-        }
-
-        // 左邊的Y軸資料
+        // 塞左右Y軸資料
         val aaSeriesElementArray = mutableListOf<AASeriesElement>()
-        aaSeriesElementArray.add(
-            AASeriesElement()
-            .name("發電量1")
-            .data(listSiteData.map { it.nEa }.toTypedArray())
-            .yAxis(0))
+        addLeftYSeries(aaSeriesElementArray)
+        addYRightData(aaSeriesElementArray)
 
-        // 右邊的Y軸資料
+        var aaOptions = aaChartModel.aa_toAAOptions()
+        aaOptions.yAxisArray(aaYAxisArray.toTypedArray())
+            .series(aaSeriesElementArray.toTypedArray())
+
+        v.aa_chart_view2.aa_drawChartWithChartModel(aaChartModel)
+        v.aa_chart_view2.aa_drawChartWithChartOptions(aaOptions)
+    }
+
+    private fun addYRightData(aaSeriesElementArray: MutableList<AASeriesElement>) {
+
         for ((snid, listInv) in mapInvStringData) {
             for (i in listSelectedPara.indices) {
-                val pData : Array<Any>
-                when(listSelectedPara[i]){
-                    "nEa" -> pData = listInv.map { it.nEa }.toTypedArray()
+                var pData: Array<Any>
+                pData = emptyArray<Any>()
+                when (listSelectedPara[i]) {
                     "nOVol" -> pData = listInv.map { it.nOVol }.toTypedArray()
                     "nOCur" -> pData = listInv.map { it.nOCur }.toTypedArray()
-                    "nPpv" -> pData = listInv.map { it.nPpv }.toTypedArray()
                     "nVpv_A" -> pData = listInv.map { it.nVpv_A }.toTypedArray()
                     "nVpv_B" -> pData = listInv.map { it.nVpv_B }.toTypedArray()
                     "nVpv_C" -> pData = listInv.map { it.nVpv_C }.toTypedArray()
@@ -416,24 +389,161 @@ class FragmentC : Fragment() {
                     "nIpv_D" -> pData = listInv.map { it.nVpv_D }.toTypedArray()
                     "nIpv_E" -> pData = listInv.map { it.nVpv_E }.toTypedArray()
                     "nIpv_F" -> pData = listInv.map { it.nVpv_F }.toTypedArray()
-                    else -> pData = listInv.map { it.nEa }.toTypedArray()
                 }
 
-                val yAxisIndex = i + 1 // (0是代表左邊Y軸，所以從1開始數)
-                val aaSeriesElement = AASeriesElement()
-                    .name(snid + " " + listSelectedPara[i])
-                    .type(AAChartType.Spline)
-                    .data(pData)
-                    .yAxis(yAxisIndex)
-                aaSeriesElementArray.add(aaSeriesElement)
+                if (pData.isNotEmpty()) {
+                    var yAxisIndex = 1
+                    if (listSelectedPara.contains("nOVol") || listSelectedPara.contains("nVpv")) {
+                        yAxisIndex = 1
+                    } else if (listSelectedPara.contains("nOCur") || listSelectedPara.contains("nIpv")) {
+                        yAxisIndex = 2
+                    } else if (listSelectedPara.contains("nHi")) {
+                        yAxisIndex = 3
+                    } else if (listSelectedPara.contains("nTmp")) {
+                        yAxisIndex = 4
+                    }
+
+                    val aaSeriesElement = AASeriesElement()
+                        .name(snid + " : " + listInv[0].nRS485ID + " " + listSelectedPara[i])
+                        .type(AAChartType.Spline)
+                        .data(pData)
+                        .yAxis(yAxisIndex)
+                    aaSeriesElementArray.add(aaSeriesElement)
+                }
             }
         }
+    }
 
-        aaOptions.yAxisArray(aaYAxisArray.toTypedArray())
-            .series(aaSeriesElementArray.toTypedArray())
+    private fun addLeftYSeries(aaSeriesElementArray: MutableList<AASeriesElement>) {
+        aaSeriesElementArray.add(
+            AASeriesElement()
+                .name("案場發電功率")
+                .data(listSiteData.map { it.nEa }.toTypedArray())
+                .yAxis(0)
+        )
 
-        v.aa_chart_view2.aa_drawChartWithChartModel(aaChartModel)
-        v.aa_chart_view2.aa_drawChartWithChartOptions(aaOptions)
+        for ((snid, listInv) in mapInvStringData) {
+            for (i in listSelectedPara.indices) {
+                val pData: Array<Any>
+                when (listSelectedPara[i]) {
+                    "nEa" -> pData = listInv.map { it.nEa }.toTypedArray()
+                    "nPpv" -> pData = listInv.map { it.nPpv }.toTypedArray()
+                }
+            }
+
+            if (listSelectedPara.contains("nEa")) {
+
+                var p = listParameterChkList.filter {
+                    it.sName == "nEa"
+                }
+                aaSeriesElementArray.add(
+                    AASeriesElement()
+                        .name(snid + " : " + listInv[0].nRS485ID + p[0].sName2.toString())
+                        .data(listSiteData.map { it.nEa }.toTypedArray())
+                        .yAxis(0)
+                )
+            }
+
+            if (listSelectedPara.contains("nPpv")) {
+
+                var p = listParameterChkList.filter {
+                    it.sName == "nPpv"
+                }
+                aaSeriesElementArray.add(
+                    AASeriesElement()
+                        .name(snid + " : " + listInv[0].nRS485ID + p[0].sName2.toString())
+                        .data(listSiteData.map { it }.toTypedArray())
+                        .yAxis(0)
+                )
+            }
+        }
+    }
+
+    private fun initRightYAxis(aaYAxisArray: MutableList<AAYAxis>) {
+        // 伏特(V)
+        val aaYAxis1 = AAYAxis()
+            .visible(false)
+            .labels(
+                AALabels()
+                    .enabled(true)//设置 y 轴是否显示数字
+            )
+            .opposite(true)
+            .title(AATitle().text("伏特(V)"))
+            .min(0f)
+
+        if (listSelectedPara.contains("nOVol") || listSelectedPara.contains("nVpv")) {
+            aaYAxis1.visible = true
+        }
+        aaYAxisArray.add(aaYAxis1)
+
+        // 安培(A)
+        val aaYAxis2 = AAYAxis()
+            .visible(false)
+            .labels(
+                AALabels()
+                    .enabled(true)//设置 y 轴是否显示数字
+            )
+            .opposite(true)
+            .title(AATitle().text("安培(A)"))
+            .min(0f)
+
+        if (listSelectedPara.contains("nOCur") || listSelectedPara.contains("nIpv")) {
+            aaYAxis2.visible = true
+        }
+        aaYAxisArray.add(aaYAxis2)
+
+        // W/㎡
+        val aaYAxis3 = AAYAxis()
+            .visible(false)
+            .labels(
+                AALabels()
+                    .enabled(true)//设置 y 轴是否显示数字
+            )
+            .opposite(true)
+            .title(AATitle().text("W/㎡"))
+            .min(0f)
+
+        if (listSelectedPara.contains("nHi")) {
+            aaYAxis3.visible = true
+        }
+        aaYAxisArray.add(aaYAxis3)
+
+        // ℃
+        val aaYAxis4 = AAYAxis()
+            .visible(false)
+            .labels(
+                AALabels()
+                    .enabled(true)//设置 y 轴是否显示数字
+            )
+            .opposite(true)
+            .title(AATitle().text("℃"))
+            .min(0f)
+        if (listSelectedPara.contains("nTmp")) {
+            aaYAxis4.visible = true
+        }
+        aaYAxisArray.add(aaYAxis4)
+    }
+
+    private fun initLeftYAxis(aaYAxisArray: MutableList<AAYAxis>) {
+        // 左邊Y軸設定 (Site nEa, Inv nEa, Inv nPpv 在左邊)
+        val aaYAxis0 = AAYAxis()
+            .visible(true)
+            .labels(
+                AALabels()
+                    .enabled(true)//设置 y 轴是否显示数字
+                    .style(
+                        AAStyle()
+                            .color("#ff0000")//yAxis Label font color
+                            .fontSize(12f)//yAxis Label font size
+                            .fontWeight(AAChartFontWeightType.Bold)//yAxis Label font weight
+                    )
+            )
+            .gridLineWidth(0f)// Y 轴网格线宽度
+            .title(AATitle().text("即時發電功率(kW)"))//Y 轴标题
+            .min(0f)
+
+
+        aaYAxisArray.add(aaYAxis0)
     }
 
     private fun setDateFormat(year: Int, month: Int, day: Int): String {
