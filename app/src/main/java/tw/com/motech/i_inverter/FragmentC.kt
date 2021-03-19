@@ -398,33 +398,32 @@ class FragmentC : Fragment() {
         // 右邊的Y軸資料
         for ((snid, listInv) in mapInvStringData) {
             for (i in listSelectedPara.indices) {
-                val pData : MutableList<Any> = mutableListOf()
-
+                val pData : Array<Any>
                 when(listSelectedPara[i]){
-                    "nEa" -> for (inv in listInv) pData.add(inv.nEa)
-                    "nOVol" -> for (inv in listInv) pData.add(inv.nOVol)
-                    "nOCur" -> for (inv in listInv) pData.add(inv.nOCur)
-                    "nPpv" -> for (inv in listInv) pData.add(inv.nPpv)
-                    "nVpv_A" -> for (inv in listInv) pData.add(inv.nVpv_A)
-                    "nVpv_B" -> for (inv in listInv) pData.add(inv.nVpv_B)
-                    "nVpv_C" -> for (inv in listInv) pData.add(inv.nVpv_C)
-                    "nVpv_D" -> for (inv in listInv) pData.add(inv.nVpv_D)
-                    "nVpv_E" -> for (inv in listInv) pData.add(inv.nVpv_E)
-                    "nVpv_F" -> for (inv in listInv) pData.add(inv.nVpv_F)
-                    "nIpv_A" -> for (inv in listInv) pData.add(inv.nIpv_A)
-                    "nIpv_B" -> for (inv in listInv) pData.add(inv.nIpv_B)
-                    "nIpv_C" -> for (inv in listInv) pData.add(inv.nIpv_C)
-                    "nIpv_D" -> for (inv in listInv) pData.add(inv.nIpv_D)
-                    "nIpv_E" -> for (inv in listInv) pData.add(inv.nIpv_E)
-                    "nIpv_F" -> for (inv in listInv) pData.add(inv.nIpv_F)
-                    else -> for (inv in listInv) pData.add(inv.nEa)
+                    "nEa" -> pData = listInv.map { it.nEa }.toTypedArray()
+                    "nOVol" -> pData = listInv.map { it.nOVol }.toTypedArray()
+                    "nOCur" -> pData = listInv.map { it.nOCur }.toTypedArray()
+                    "nPpv" -> pData = listInv.map { it.nPpv }.toTypedArray()
+                    "nVpv_A" -> pData = listInv.map { it.nVpv_A }.toTypedArray()
+                    "nVpv_B" -> pData = listInv.map { it.nVpv_B }.toTypedArray()
+                    "nVpv_C" -> pData = listInv.map { it.nVpv_C }.toTypedArray()
+                    "nVpv_D" -> pData = listInv.map { it.nVpv_D }.toTypedArray()
+                    "nVpv_E" -> pData = listInv.map { it.nVpv_E }.toTypedArray()
+                    "nVpv_F" -> pData = listInv.map { it.nVpv_F }.toTypedArray()
+                    "nIpv_A" -> pData = listInv.map { it.nVpv_A }.toTypedArray()
+                    "nIpv_B" -> pData = listInv.map { it.nVpv_B }.toTypedArray()
+                    "nIpv_C" -> pData = listInv.map { it.nVpv_C }.toTypedArray()
+                    "nIpv_D" -> pData = listInv.map { it.nVpv_D }.toTypedArray()
+                    "nIpv_E" -> pData = listInv.map { it.nVpv_E }.toTypedArray()
+                    "nIpv_F" -> pData = listInv.map { it.nVpv_F }.toTypedArray()
+                    else -> pData = listInv.map { it.nEa }.toTypedArray()
                 }
 
                 val yAxisIndex = i + 1 // (0是代表左邊Y軸，所以從1開始數)
                 val aaSeriesElement = AASeriesElement()
                     .name(snid + " " + listSelectedPara[i])
                     .type(AAChartType.Spline)
-                    .data(pData.toTypedArray())
+                    .data(pData)
                     .yAxis(yAxisIndex)
                 aaSeriesElementArray.add(aaSeriesElement)
             }
