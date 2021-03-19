@@ -432,39 +432,37 @@ class FragmentC : Fragment() {
         )
 
         for ((snid, listInv) in mapInvStringData) {
-            var pData: Array<Any>
-            pData = emptyArray<Any>()
             for (i in listSelectedPara.indices) {
+                var pData: Array<Any>
+                pData = emptyArray<Any>()
                 when (listSelectedPara[i]) {
-                    "nEa" -> pData = listInv.map { it.nEa }.toTypedArray()
-                    "nPpv" -> pData = listInv.map { it.nPpv }.toTypedArray()
+                    "nEa" -> {
+                        pData = listInv.map { it.nEa }.toTypedArray()
+                        var p = listParameterChkList.filter {
+                            it.sName == "nEa"
+                        }
+                        aaSeriesElementArray.add(
+                            AASeriesElement()
+                                .name(snid + " : " + listInv[0].nRS485ID + p[0].sName2.toString())
+                                .type(AAChartType.Spline)
+                                .data(pData)
+                                .yAxis(0)
+                        )
+                    }
+                    "nPpv" -> {
+                        pData = listInv.map { it.nPpv }.toTypedArray()
+                        var p = listParameterChkList.filter {
+                            it.sName == "nPpv"
+                        }
+                        aaSeriesElementArray.add(
+                            AASeriesElement()
+                                .name(snid + " : " + listInv[0].nRS485ID + p[0].sName2.toString())
+                                .type(AAChartType.Spline)
+                                .data(pData)
+                                .yAxis(0)
+                        )
+                    }
                 }
-            }
-
-            if (listSelectedPara.contains("nEa")) {
-                var p = listParameterChkList.filter {
-                    it.sName == "nEa"
-                }
-                aaSeriesElementArray.add(
-                    AASeriesElement()
-                        .name(snid + " : " + listInv[0].nRS485ID + p[0].sName2.toString())
-                        .type(AAChartType.Spline)
-                        .data(pData)
-                        .yAxis(0)
-                )
-            }
-
-            if (listSelectedPara.contains("nPpv")) {
-                var p = listParameterChkList.filter {
-                    it.sName == "nPpv"
-                }
-                aaSeriesElementArray.add(
-                    AASeriesElement()
-                        .name(snid + " : " + listInv[0].nRS485ID + p[0].sName2.toString())
-                        .type(AAChartType.Spline)
-                        .data(pData)
-                        .yAxis(0)
-                )
             }
         }
     }
