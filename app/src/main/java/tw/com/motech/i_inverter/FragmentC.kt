@@ -34,7 +34,7 @@ class FragmentC : Fragment() {
     private lateinit var listParameterChkList: MutableList<ParameterChkList>
     private lateinit var listSiteData: List<SiteData>
     private lateinit var listInvStringData: List<InvStringData>
-    private lateinit var mapInvStringData : MutableMap<String, MutableList<InvStringData>>
+    private lateinit var mapInvStringData : MutableMap<String, MutableList<InvStringData>> // key是SNID, value是InvStringData的陣列
 
     private var selectedInv : String = ""
     private var selectedPara : String = ""
@@ -50,6 +50,9 @@ class FragmentC : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_c, container, false)
+
+        mapInvStringData = mutableMapOf()
+        listSelectedPara = mutableListOf()
 
         initParaList()
         initInvMultiSpinner()
@@ -77,6 +80,7 @@ class FragmentC : Fragment() {
                 Toast.makeText(v.context, "請選擇日期", Toast.LENGTH_SHORT).show()
                 valid = false
             }
+            /*
             if (selectedPara.length == 0) {
                 Toast.makeText(v.context, "請選擇參數", Toast.LENGTH_SHORT).show()
                 valid = false
@@ -85,6 +89,7 @@ class FragmentC : Fragment() {
                 Toast.makeText(v.context, "請選擇Inverter", Toast.LENGTH_SHORT).show()
                 valid = false
             }
+            */
 
             if (valid) {
                 getSiteData(v.txtdate.text.toString())
@@ -121,6 +126,7 @@ class FragmentC : Fragment() {
     private fun initInvMultiSpinner() {
 
         v.invMultiSpinner.isSearchEnabled = true
+        v.invMultiSpinner.isShowSelectAllButton = true
         v.invMultiSpinner.setSearchHint("搜尋 inverter")
         v.invMultiSpinner.setEmptyTitle("找不到 inverter!")
         v.invMultiSpinner.setClearText("關閉")
@@ -214,7 +220,6 @@ class FragmentC : Fragment() {
             listArray0
         ) { items ->
             selectedPara = ""
-            listSelectedPara = mutableListOf()
             for (i in items.indices) {
                 if (items[i].isSelected) {
                     val p = listParameterChkList.filter {
@@ -265,8 +270,15 @@ class FragmentC : Fragment() {
                     val json = response.body!!.string() // 資料只能抓一次
                     listSiteData = Gson().fromJson(json, Array<SiteData>::class.java).toList()
 
-                    // 取得Site Data後，再去抓Inv Data
-                    getInverterStringData()
+                    if (selectedPara.length == 0 && selectedInv.length == 0) {
+                        getActivity()?.runOnUiThread {
+                            showAAChart()
+                        }
+                    } else {
+                        // 取得Site Data後，再去抓Inv Data
+                        getInverterStringData()
+                    }
+
                 }
             }
 
@@ -320,9 +332,6 @@ class FragmentC : Fragment() {
 
         val listInvStringDataBySNID = listInvStringData.map { it.sSNID }
 
-        // key是SNID, value是InvStringData的陣列
-        mapInvStringData = mutableMapOf()
-
         // 以siteData的sDataKey為主，重新整理InvStringData的資料結構
         for (snid in listInvStringDataBySNID) {
             mapInvStringData[snid] = mutableListOf()
@@ -358,7 +367,7 @@ class FragmentC : Fragment() {
         // 塞左右Y軸資料
         val aaSeriesElementArray = mutableListOf<AASeriesElement>()
         addLeftYSeries(aaSeriesElementArray)
-        addYRightData(aaSeriesElementArray)
+        addRightYSeries(aaSeriesElementArray)
 
         var aaOptions = aaChartModel.aa_toAAOptions()
         aaOptions.yAxisArray(aaYAxisArray.toTypedArray())
@@ -368,7 +377,7 @@ class FragmentC : Fragment() {
         v.aa_chart_view2.aa_drawChartWithChartOptions(aaOptions)
     }
 
-    private fun addYRightData(aaSeriesElementArray: MutableList<AASeriesElement>) {
+    private fun addRightYSeries(aaSeriesElementArray: MutableList<AASeriesElement>) {
 
         for ((snid, listInv) in mapInvStringData) {
             for (i in listSelectedPara.indices) {
@@ -423,8 +432,9 @@ class FragmentC : Fragment() {
         )
 
         for ((snid, listInv) in mapInvStringData) {
+            var pData: Array<Any>
+            pData = emptyArray<Any>()
             for (i in listSelectedPara.indices) {
-                val pData: Array<Any>
                 when (listSelectedPara[i]) {
                     "nEa" -> pData = listInv.map { it.nEa }.toTypedArray()
                     "nPpv" -> pData = listInv.map { it.nPpv }.toTypedArray()
@@ -432,27 +442,27 @@ class FragmentC : Fragment() {
             }
 
             if (listSelectedPara.contains("nEa")) {
-
                 var p = listParameterChkList.filter {
                     it.sName == "nEa"
                 }
                 aaSeriesElementArray.add(
                     AASeriesElement()
                         .name(snid + " : " + listInv[0].nRS485ID + p[0].sName2.toString())
-                        .data(listSiteData.map { it.nEa }.toTypedArray())
+                        .type(AAChartType.Spline)
+                        .data(pData)
                         .yAxis(0)
                 )
             }
 
             if (listSelectedPara.contains("nPpv")) {
-
                 var p = listParameterChkList.filter {
                     it.sName == "nPpv"
                 }
                 aaSeriesElementArray.add(
                     AASeriesElement()
                         .name(snid + " : " + listInv[0].nRS485ID + p[0].sName2.toString())
-                        .data(listSiteData.map { it }.toTypedArray())
+                        .type(AAChartType.Spline)
+                        .data(pData)
                         .yAxis(0)
                 )
             }
