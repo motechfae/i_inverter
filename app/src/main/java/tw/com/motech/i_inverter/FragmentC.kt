@@ -472,9 +472,9 @@ class FragmentC : Fragment() {
 
                 if (pData.isNotEmpty()) {
                     var yAxisIndex = 1
-                    if (listSelectedPara.contains("nOVol") || listSelectedPara.contains("nVpv")) {
+                    if (listSelectedPara[i].contains("nOVol") || listSelectedPara[i].contains("nVpv")) {
                         yAxisIndex = 1
-                    } else if (listSelectedPara.contains("nOCur") || listSelectedPara.contains("nIpv")) {
+                    } else if (listSelectedPara[i].contains("nOCur") || listSelectedPara[i].contains("nIpv")) {
                         yAxisIndex = 2
                     }
 
