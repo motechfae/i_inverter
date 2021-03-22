@@ -369,7 +369,7 @@ class FragmentC : Fragment() {
         // 以SiteData的sDataKey當X軸
         val aaChartModel : AAChartModel = AAChartModel()
             .chartType(AAChartType.Area)
-            .title("發電功率")
+            .title(sSite_Name_GLB + " 發電功率")
             .subtitle(v.txtdate.text.toString())
             .animationType(AAChartAnimationType.EaseInOutExpo)
             .animationDuration(0)
