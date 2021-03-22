@@ -60,25 +60,25 @@ data class InverterChkList(
 )
 
 data class InvStringData(
-    val sDataKey: String,
+    var sDataKey: String,
     val nRS485ID: Int,
     val sSNID: String,
-    val nEa: Float,
-    val nOVol: Float,
-    val nOCur: Float,
-    val nPpv: Float,
-    val nVpv_A: Float,
-    val nVpv_B: Float,
-    val nVpv_C: Float,
-    val nVpv_D: Float,
-    val nVpv_E: Float,
-    val nVpv_F: Float,
-    val nIpv_A: Float,
-    val nIpv_B: Float,
-    val nIpv_C: Float,
-    val nIpv_D: Float,
-    val nIpv_E: Float,
-    val nIpv_F: Float
+    val nEa: Float?,
+    val nOVol: Float?,
+    val nOCur: Float?,
+    val nPpv: Float?,
+    val nVpv_A: Float?,
+    val nVpv_B: Float?,
+    val nVpv_C: Float?,
+    val nVpv_D: Float?,
+    val nVpv_E: Float?,
+    val nVpv_F: Float?,
+    val nIpv_A: Float?,
+    val nIpv_B: Float?,
+    val nIpv_C: Float?,
+    val nIpv_D: Float?,
+    val nIpv_E: Float?,
+    val nIpv_F: Float?
 )
 
 data class ParameterChkList(

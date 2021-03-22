@@ -7,11 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.TextView
 import android.widget.Toast
 import com.androidbuts.multispinnerfilter.KeyPairBoolData
-import com.androidbuts.multispinnerfilter.MultiSpinnerSearch
 import com.github.aachartmodel.aainfographics.aachartcreator.*
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.AALabels
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAStyle
@@ -19,14 +16,11 @@ import com.github.aachartmodel.aainfographics.aaoptionsmodel.AATitle
 import com.github.aachartmodel.aainfographics.aaoptionsmodel.AAYAxis
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_a.view.*
-import tw.com.motech.i_inverter.R
 import kotlinx.android.synthetic.main.fragment_c.*
 import kotlinx.android.synthetic.main.fragment_c.view.*
 import okhttp3.*
 import java.io.IOException
-import java.text.SimpleDateFormat
 import java.util.*
-import javax.xml.transform.OutputKeys
 
 class FragmentC : Fragment() {
     private lateinit var v:View
@@ -189,6 +183,7 @@ class FragmentC : Fragment() {
                                     // 組sql字串
                                     // AND B.sSNID in ('O1Y19804686WF','O1Y19804682WF','O1Y19804684WF')
                                     selectedInv = selectedInv + "'" + inv + "', "
+                                    mapInvStringData[inv] = mutableListOf()
                                 }
                             }
 
@@ -336,22 +331,40 @@ class FragmentC : Fragment() {
 
     private fun alignSiteDateAndInvStringData() {
 
-        val listInvStringDataBySNID = listInvStringData.map { it.sSNID }
+        // 看有幾台inverter
+        for ((snid, v) in mapInvStringData) {
 
-        // 以siteData的sDataKey為主，重新整理InvStringData的資料結構
-        for (snid in listInvStringDataBySNID) {
             mapInvStringData[snid] = mutableListOf()
-            for (inv in listInvStringData) {
-                for (siteData in listSiteData) {
-                    if (inv.sSNID == snid && inv.sDataKey == siteData.sDataKey) {
-                        mapInvStringData[snid]?.add(inv)
+
+            // 以siteData的sDataKey為主，找出InvStringData對應的sDataKey
+            for (siteData in listSiteData) {
+
+
+                val isInvExistDataKey = listInvStringData.filter {
+                    it.sSNID == snid && it.sDataKey == siteData.sDataKey
+                }
+
+                // 如果用SiteData的sDataKey找不到Inverter對應DataKey的資料，就塞空值
+                if (isInvExistDataKey.isEmpty()) {
+                    val isInvExistSnid = listInverterChkList.filter {
+                        it.sSNID == snid
                     }
+                    var emptyInvStringData = InvStringData(siteData.sDataKey, isInvExistSnid[0].nRS485ID, snid, null, null, null, null, null,null,null,null,null,null,null,null,null,null,null,null)
+                    mapInvStringData[snid]?.add(emptyInvStringData)
+                }
+                else
+                {
+                    // Inverter DataKey應該只會符合一筆，所以直接取0
+                    mapInvStringData[snid]?.add(isInvExistDataKey[0])
                 }
             }
         }
+
     }
 
     private fun showAAChart() {
+
+        val xCategory = listSiteData.map { it.sDataKey.substring(8..9) + ":" + it.sDataKey.substring(10..11) }.toTypedArray()
 
         // 以SiteData的sDataKey當X軸
         val aaChartModel : AAChartModel = AAChartModel()
@@ -362,7 +375,7 @@ class FragmentC : Fragment() {
             .animationDuration(0)
             .backgroundColor("#FFFFFF")
             .dataLabelsEnabled(true)
-            .categories(listSiteData.map { it.sDataKey.substring(8..9) + ":" + it.sDataKey.substring(10..11) }.toTypedArray())
+            .categories(xCategory)
 
         // 初始化左右Y軸
         val aaYAxisArray = mutableListOf<AAYAxis>()
@@ -371,8 +384,8 @@ class FragmentC : Fragment() {
 
         // 塞左右Y軸資料
         val aaSeriesElementArray = mutableListOf<AASeriesElement>()
-        addLeftYSeries(aaSeriesElementArray)
-        addRightYSeries(aaSeriesElementArray)
+        addLeftYSeries(aaSeriesElementArray, xCategory)
+        addRightYSeries(aaSeriesElementArray, xCategory)
 
         var aaOptions = aaChartModel.aa_toAAOptions()
         aaOptions.yAxisArray(aaYAxisArray.toTypedArray())
@@ -382,7 +395,10 @@ class FragmentC : Fragment() {
         v.aa_chart_view2.aa_drawChartWithChartOptions(aaOptions)
     }
 
-    private fun addRightYSeries(aaSeriesElementArray: MutableList<AASeriesElement>) {
+    private fun addRightYSeries(
+        aaSeriesElementArray: MutableList<AASeriesElement>,
+        xCategory: Array<String>
+    ) {
 
         // for 案場
         for (i in listSelectedPara.indices) {
@@ -417,8 +433,8 @@ class FragmentC : Fragment() {
         // for inverter
         for ((snid, listInv) in mapInvStringData) {
             for (i in listSelectedPara.indices) {
-                var pData: Array<Any>
-                pData = emptyArray<Any>()
+                var pData: Array<Any?>
+                pData = emptyArray<Any?>()
                 when (listSelectedPara[i]) {
                     "nOVol" -> pData = listInv.map { it.nOVol }.toTypedArray()
                     "nOCur" -> pData = listInv.map { it.nOCur }.toTypedArray()
@@ -444,10 +460,22 @@ class FragmentC : Fragment() {
                         yAxisIndex = 2
                     }
 
+                    // AAChart處理空值的方法
+                    /*
+                        val pData : MutableList<MutableList<Any?>> = mutableListOf()
+                        pData.add(arrayListOf(1, 5))
+                        pData.add(arrayListOf(2, null))
+                        pData.add(arrayListOf(3, 7))
+                     */
+                    val pDataWithNull : MutableList<MutableList<Any?>> = mutableListOf()
+                    for (i in xCategory.indices) {
+                        pDataWithNull.add(mutableListOf(xCategory[i], pData[i]))
+                    }
+
                     val aaSeriesElement = AASeriesElement()
                         .name(snid + " : " + listInv[0].nRS485ID + " " + listSelectedPara[i])
                         .type(AAChartType.Spline)
-                        .data(pData)
+                        .data(pDataWithNull.toTypedArray())
                         .yAxis(yAxisIndex)
                     aaSeriesElementArray.add(aaSeriesElement)
                 }
@@ -455,7 +483,10 @@ class FragmentC : Fragment() {
         }
     }
 
-    private fun addLeftYSeries(aaSeriesElementArray: MutableList<AASeriesElement>) {
+    private fun addLeftYSeries(
+        aaSeriesElementArray: MutableList<AASeriesElement>,
+        xCategory: Array<String>
+    ) {
         aaSeriesElementArray.add(
             AASeriesElement()
                 .name("案場發電功率")
@@ -465,8 +496,8 @@ class FragmentC : Fragment() {
 
         for ((snid, listInv) in mapInvStringData) {
             for (i in listSelectedPara.indices) {
-                var pData: Array<Any>
-                pData = emptyArray<Any>()
+                var pData: Array<Any?>
+                pData = emptyArray<Any?>()
 
                 when (listSelectedPara[i]) {
                     "nEa" -> pData = listInv.map { it.nEa }.toTypedArray()
@@ -477,11 +508,17 @@ class FragmentC : Fragment() {
                     var p = listParameterChkList.filter {
                         it.sName == listSelectedPara[i]
                     }
+
+                    val pDataWithNull : MutableList<MutableList<Any?>> = mutableListOf()
+                    for (i in xCategory.indices) {
+                        pDataWithNull.add(mutableListOf(xCategory[i], pData[i]))
+                    }
+
                     aaSeriesElementArray.add(
                         AASeriesElement()
                             .name(snid + " : " + listInv[0].nRS485ID + " " + p[0].sName2.toString())
                             .type(AAChartType.Spline)
-                            .data(pData)
+                            .data(pDataWithNull.toTypedArray())
                             .yAxis(0)
                     )
                 }
