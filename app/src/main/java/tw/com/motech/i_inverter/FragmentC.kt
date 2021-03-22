@@ -80,16 +80,19 @@ class FragmentC : Fragment() {
                 Toast.makeText(v.context, "請選擇日期", Toast.LENGTH_SHORT).show()
                 valid = false
             }
-            /*
-            if (selectedPara.length == 0) {
-                Toast.makeText(v.context, "請選擇參數", Toast.LENGTH_SHORT).show()
-                valid = false
+
+            // 除了nHi和nTmp以外，如果有勾以下參數要檢查inverter有沒有選
+            if (selectedPara.contains("nEa") ||
+                selectedPara.contains("nPpv") ||
+                selectedPara.contains("nOVol") ||
+                selectedPara.contains("nVpv") ||
+                selectedPara.contains("nOCur") ||
+                selectedPara.contains("nIpv")   ) {
+                if (selectedInv.length == 0) {
+                    Toast.makeText(v.context, "請至少選擇一台inverter", Toast.LENGTH_SHORT).show()
+                    valid = false
+                }
             }
-            if (selectedInv.length == 0) {
-                Toast.makeText(v.context, "請選擇Inverter", Toast.LENGTH_SHORT).show()
-                valid = false
-            }
-            */
 
             if (valid) {
                 getSiteData(v.txtdate.text.toString())
@@ -245,6 +248,7 @@ class FragmentC : Fragment() {
                 selectedPara = " ," + selectedPara.substring(0, selectedPara.length - 2)
                 //println(selectedPara)
             }
+
         }
     }
 
@@ -379,6 +383,37 @@ class FragmentC : Fragment() {
 
     private fun addRightYSeries(aaSeriesElementArray: MutableList<AASeriesElement>) {
 
+        // for 案場
+        for (i in listSelectedPara.indices) {
+            var pData: Array<Any>
+            pData = emptyArray<Any>()
+
+            when (listSelectedPara[i]) {
+                "nHi"    -> pData = listSiteData.map { it.nHi }.toTypedArray()
+                "nTmp"   -> pData = listSiteData.map { it.nTmp }.toTypedArray()
+            }
+            if (pData.isNotEmpty()) {
+                var yAxisIndex = 3
+                var sName = ""
+                if (listSelectedPara.contains("nHi")) {
+                    yAxisIndex = 3
+                    sName = "案場日照計"
+                } else if (listSelectedPara.contains("nTmp")) {
+                    yAxisIndex = 4
+                    sName = "案場溫度計"
+                }
+
+                val aaSeriesElement = AASeriesElement()
+                    .name(sName)
+                    .type(AAChartType.Spline)
+                    .data(pData)
+                    .yAxis(yAxisIndex)
+                aaSeriesElementArray.add(aaSeriesElement)
+            }
+
+        }
+
+        // for inverter
         for ((snid, listInv) in mapInvStringData) {
             for (i in listSelectedPara.indices) {
                 var pData: Array<Any>
@@ -398,9 +433,6 @@ class FragmentC : Fragment() {
                     "nIpv_D" -> pData = listInv.map { it.nVpv_D }.toTypedArray()
                     "nIpv_E" -> pData = listInv.map { it.nVpv_E }.toTypedArray()
                     "nIpv_F" -> pData = listInv.map { it.nVpv_F }.toTypedArray()
-
-                    "nHi"    -> pData = listSiteData.map { it.nHi }.toTypedArray()
-                    "nTmp"   -> pData = listSiteData.map { it.nTmp }.toTypedArray()
                 }
 
                 if (pData.isNotEmpty()) {
@@ -409,10 +441,6 @@ class FragmentC : Fragment() {
                         yAxisIndex = 1
                     } else if (listSelectedPara.contains("nOCur") || listSelectedPara.contains("nIpv")) {
                         yAxisIndex = 2
-                    } else if (listSelectedPara.contains("nHi")) {
-                        yAxisIndex = 3
-                    } else if (listSelectedPara.contains("nTmp")) {
-                        yAxisIndex = 4
                     }
 
                     val aaSeriesElement = AASeriesElement()
