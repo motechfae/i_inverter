@@ -220,6 +220,7 @@ class FragmentC : Fragment() {
             listArray0
         ) { items ->
             selectedPara = ""
+            listSelectedPara = mutableListOf()
             for (i in items.indices) {
                 if (items[i].isSelected) {
                     val p = listParameterChkList.filter {
@@ -343,7 +344,6 @@ class FragmentC : Fragment() {
                 }
             }
         }
-        println(mapInvStringData["O1Y19804686WF"])
     }
 
     private fun showAAChart() {
@@ -398,6 +398,9 @@ class FragmentC : Fragment() {
                     "nIpv_D" -> pData = listInv.map { it.nVpv_D }.toTypedArray()
                     "nIpv_E" -> pData = listInv.map { it.nVpv_E }.toTypedArray()
                     "nIpv_F" -> pData = listInv.map { it.nVpv_F }.toTypedArray()
+
+                    "nHi"    -> pData = listSiteData.map { it.nHi }.toTypedArray()
+                    "nTmp"   -> pData = listSiteData.map { it.nTmp }.toTypedArray()
                 }
 
                 if (pData.isNotEmpty()) {
