@@ -182,6 +182,7 @@ class FragmentC : Fragment() {
                             listArray0
                         ) { items ->
                             selectedInv = ""
+                            mapInvStringData = mutableMapOf()
                             for (i in items.indices) {
                                 if (items[i].isSelected) {
                                     val inv = items[i].name.split(":")[0]
@@ -478,7 +479,7 @@ class FragmentC : Fragment() {
                     }
                     aaSeriesElementArray.add(
                         AASeriesElement()
-                            .name(snid + " : " + listInv[0].nRS485ID + p[0].sName2.toString())
+                            .name(snid + " : " + listInv[0].nRS485ID + " " + p[0].sName2.toString())
                             .type(AAChartType.Spline)
                             .data(pData)
                             .yAxis(0)
