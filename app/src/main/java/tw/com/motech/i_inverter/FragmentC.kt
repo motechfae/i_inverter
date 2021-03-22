@@ -435,33 +435,23 @@ class FragmentC : Fragment() {
             for (i in listSelectedPara.indices) {
                 var pData: Array<Any>
                 pData = emptyArray<Any>()
+
                 when (listSelectedPara[i]) {
-                    "nEa" -> {
-                        pData = listInv.map { it.nEa }.toTypedArray()
-                        var p = listParameterChkList.filter {
-                            it.sName == "nEa"
-                        }
-                        aaSeriesElementArray.add(
-                            AASeriesElement()
-                                .name(snid + " : " + listInv[0].nRS485ID + p[0].sName2.toString())
-                                .type(AAChartType.Spline)
-                                .data(pData)
-                                .yAxis(0)
-                        )
+                    "nEa" -> pData = listInv.map { it.nEa }.toTypedArray()
+                    "nPpv" -> pData = listInv.map { it.nPpv }.toTypedArray()
+                }
+
+                if (pData.isNotEmpty()) {
+                    var p = listParameterChkList.filter {
+                        it.sName == listSelectedPara[i]
                     }
-                    "nPpv" -> {
-                        pData = listInv.map { it.nPpv }.toTypedArray()
-                        var p = listParameterChkList.filter {
-                            it.sName == "nPpv"
-                        }
-                        aaSeriesElementArray.add(
-                            AASeriesElement()
-                                .name(snid + " : " + listInv[0].nRS485ID + p[0].sName2.toString())
-                                .type(AAChartType.Spline)
-                                .data(pData)
-                                .yAxis(0)
-                        )
-                    }
+                    aaSeriesElementArray.add(
+                        AASeriesElement()
+                            .name(snid + " : " + listInv[0].nRS485ID + p[0].sName2.toString())
+                            .type(AAChartType.Spline)
+                            .data(pData)
+                            .yAxis(0)
+                    )
                 }
             }
         }
