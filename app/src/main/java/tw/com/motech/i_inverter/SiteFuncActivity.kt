@@ -22,8 +22,11 @@ class SiteFuncActivity : AppCompatActivity() {
                 R.id.page_1 -> setCurrentFragment(fragmentA)
                 R.id.page_2 -> setCurrentFragment(fragmentB)
                 R.id.page_3 -> setCurrentFragment(fragmentC)
+                /*
                 R.id.page_4 -> setCurrentFragment(fragmentD)
                 R.id.page_5 -> setCurrentFragment(fragmentE)
+
+                 */
             }
             true
         }
