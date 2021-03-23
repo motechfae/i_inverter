@@ -390,26 +390,7 @@ class FragmentC : Fragment() {
         var aaOptions = aaChartModel.aa_toAAOptions()
         aaOptions.yAxisArray(aaYAxisArray.toTypedArray())
             .series(aaSeriesElementArray.toTypedArray())
-/*
-        aaOptions.yAxisArray(aaYAxisArray.toTypedArray())
-            .series(arrayOf(
-                AASeriesElement()
-                    .name("發電量1")
-                    .data(listSiteData.map { it.nEa }.toTypedArray())
-                    .yAxis(0),
-                AASeriesElement()
-                    .name("日照量1")
-                    .type(AAChartType.Spline)
-                    .data(listSiteData.map { it.nHi }.toTypedArray())
-                    .yAxis(3),
-                AASeriesElement()
-                    .name("溫度1")
-                    .type(AAChartType.Spline)
-                    .data(listSiteData.map { it.nTmp }.toTypedArray())
-                    .yAxis(4)
-            )
-            )
-*/
+
         v.aa_chart_view2.aa_drawChartWithChartModel(aaChartModel)
         v.aa_chart_view2.aa_drawChartWithChartOptions(aaOptions)
     }
