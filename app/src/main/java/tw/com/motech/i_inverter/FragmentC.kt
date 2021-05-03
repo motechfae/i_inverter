@@ -443,12 +443,12 @@ class FragmentC : Fragment() {
                     "nVpv_D" -> pData = listInv.map { it.nVpv_D }.toTypedArray()
                     "nVpv_E" -> pData = listInv.map { it.nVpv_E }.toTypedArray()
                     "nVpv_F" -> pData = listInv.map { it.nVpv_F }.toTypedArray()
-                    "nIpv_A" -> pData = listInv.map { it.nVpv_A }.toTypedArray()
-                    "nIpv_B" -> pData = listInv.map { it.nVpv_B }.toTypedArray()
-                    "nIpv_C" -> pData = listInv.map { it.nVpv_C }.toTypedArray()
-                    "nIpv_D" -> pData = listInv.map { it.nVpv_D }.toTypedArray()
-                    "nIpv_E" -> pData = listInv.map { it.nVpv_E }.toTypedArray()
-                    "nIpv_F" -> pData = listInv.map { it.nVpv_F }.toTypedArray()
+                    "nIpv_A" -> pData = listInv.map { it.nIpv_A }.toTypedArray()
+                    "nIpv_B" -> pData = listInv.map { it.nIpv_B }.toTypedArray()
+                    "nIpv_C" -> pData = listInv.map { it.nIpv_C }.toTypedArray()
+                    "nIpv_D" -> pData = listInv.map { it.nIpv_D }.toTypedArray()
+                    "nIpv_E" -> pData = listInv.map { it.nIpv_E }.toTypedArray()
+                    "nIpv_F" -> pData = listInv.map { it.nIpv_F }.toTypedArray()
                 }
 
                 if (pData.isNotEmpty()) {
@@ -536,7 +536,13 @@ class FragmentC : Fragment() {
             .opposite(true)
             .title(AATitle().text("伏特(V)"))
             .min(0f)
-        if (listSelectedPara.contains("nOVol") || listSelectedPara.contains("nVpv")) {
+        if (listSelectedPara.contains("nOVol") ||
+            listSelectedPara.contains("nVpv_A") ||
+            listSelectedPara.contains("nVpv_B") ||
+            listSelectedPara.contains("nVpv_C") ||
+            listSelectedPara.contains("nVpv_D") ||
+            listSelectedPara.contains("nVpv_E") ||
+            listSelectedPara.contains("nVpv_F")) {
             aaYAxis1.visible = true
         }
         aaYAxisArray.add(aaYAxis1)
@@ -551,7 +557,13 @@ class FragmentC : Fragment() {
             .opposite(true)
             .title(AATitle().text("安培(A)"))
             .min(0f)
-        if (listSelectedPara.contains("nOCur") || listSelectedPara.contains("nIpv")) {
+        if (listSelectedPara.contains("nOCur") ||
+            listSelectedPara.contains("nIpv_A") ||
+            listSelectedPara.contains("nIpv_B") ||
+            listSelectedPara.contains("nIpv_C") ||
+            listSelectedPara.contains("nIpv_D") ||
+            listSelectedPara.contains("nIpv_E") ||
+            listSelectedPara.contains("nIpv_F")) {
             aaYAxis2.visible = true
         }
         aaYAxisArray.add(aaYAxis2)
