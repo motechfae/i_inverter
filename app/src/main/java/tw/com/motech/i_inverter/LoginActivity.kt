@@ -71,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
 
                     if (list.count() == 0) {
                         runOnUiThread {
-                            Toast.makeText(this@LoginActivity, "登入失敗!", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@LoginActivity, "帳密錯誤，登入失敗!", Toast.LENGTH_LONG).show()
                         }
                     } else {
                         for (l in list) {
@@ -94,6 +94,10 @@ class LoginActivity : AppCompatActivity() {
                                 editor.putString("username", list[0].sAccount)
                                 editor.putString("password", list[0].sPassword)
                                 editor.commit()
+                            }
+                        } else{
+                            runOnUiThread {
+                                Toast.makeText(this@LoginActivity, "帳密大小寫錯誤，登入失敗!", Toast.LENGTH_LONG).show()
                             }
                         }
                     }
