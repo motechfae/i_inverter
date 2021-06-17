@@ -97,7 +97,7 @@ class LoginActivity : AppCompatActivity() {
                             }
                         } else{
                             runOnUiThread {
-                                Toast.makeText(this@LoginActivity, "帳密大小寫錯誤，登入失敗!", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this@LoginActivity, "帳密不正確，登入失敗!", Toast.LENGTH_LONG).show()
                             }
                         }
                     }
