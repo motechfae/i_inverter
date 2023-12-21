@@ -145,7 +145,7 @@ class SiteListAdapterActivity(private val siteresults: List<SiteResult>) : Recyc
 
             zoneresult  = Gson().fromJson(responsestr, Array<ZoneResult>::class.java).toList()
             Handler(Looper.getMainLooper()).post(Runnable {
-                sZoneNo_GLB = zoneresult[0]?.sZoneNo
+                sZoneNo_GLB = zoneresult[0]?.sZoneNo.toString()
                 holder2.itemView.context.startActivity(
                     Intent(
                         holder2.itemView.context,

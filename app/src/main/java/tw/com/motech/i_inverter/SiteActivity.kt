@@ -414,16 +414,16 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     }
 
     override fun onFling(
-        event1: MotionEvent,
+        event1: MotionEvent?,
         event2: MotionEvent,
         velocityX: Float,
         velocityY: Float
     ): Boolean {
         val minMove = 120     //最小滑動距離
         val minVelocity = 0    //最小滑動速度
-        val beginX = event1.x
+        val beginX = event1?.x
         val endX = event2.x
-        val beginY = event1.y
+        val beginY = event1?.y
         val endY = event2.y
 
         /* 跟ScrollView的上下滑事件衝到，滑到行為怪怪的
@@ -445,7 +445,7 @@ class SiteActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     }
 
     override fun onScroll(
-        event1: MotionEvent,
+        event1: MotionEvent?,
         event2: MotionEvent,
         distanceX: Float,
         distanceY: Float

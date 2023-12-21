@@ -46,19 +46,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
-            <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+            <Button
                 android:id="@+id/invMultiSpinner"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                app:hintText="Inv" />
+                android:backgroundTint="@color/bg_higood_pressed"
+                android:text="Inv" />
 
-            <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+            <Button
                 android:id="@+id/paraMultiSpinner"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                app:hintText="Para" />
+                android:backgroundTint="@color/bg_hisleep_pressed"
+                android:text="Para" />
 
             <Button
                 android:id="@+id/btnQuery"

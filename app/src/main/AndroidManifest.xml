@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="tw.com.motech.i_inverter">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,18 +11,19 @@
         android:roundIcon="@mipmap/ic_iinvertericon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.I_inverter">
-        <activity android:name=".InverterListAdapterActivity"></activity>
+        <activity android:name=".InverterListAdapterActivity" />
         <activity
             android:name=".SiteListAdapterActivity"
             tools:ignore="Instantiatable" />
         <activity android:name=".SiteListActivity" />
-        <activity android:name=".SiteFuncActivity">
+        <activity android:name=".SiteFuncActivity"
             android:parentActivityName=".SiteActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".SiteActivity" />
         </activity>
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

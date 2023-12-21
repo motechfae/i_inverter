@@ -33,6 +33,8 @@ class FragmentC : Fragment() {
     private var selectedInv : String = ""
     private var selectedPara : String = ""
     private lateinit var listSelectedPara : MutableList<String>
+    private lateinit var listInv : MutableList<String>
+    private lateinit var listPara : MutableList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,10 +49,21 @@ class FragmentC : Fragment() {
 
         mapInvStringData = mutableMapOf()
         listSelectedPara = mutableListOf()
+        listInv = mutableListOf()
+        listPara = mutableListOf()
 
         initParaList()
         initInvMultiSpinner()
         initParaMultiSpinner()
+
+        v.invMultiSpinner.setOnClickListener {
+            val checkBoxListView = CheckBoxListView(v, listInv, ::handleInvSelectedOptions)
+            checkBoxListView.showCheckBoxListDialog()
+        }
+        v.paraMultiSpinner.setOnClickListener {
+            val checkBoxListView = CheckBoxListView(v, listPara, ::handleParaSelectedOptions)
+            checkBoxListView.showCheckBoxListDialog()
+        }
 
         // 日期
         v.btndate.setOnClickListener {
@@ -121,21 +134,24 @@ class FragmentC : Fragment() {
     }
 
     private fun initInvMultiSpinner() {
-
+       /*
         v.invMultiSpinner.isSearchEnabled = true
         v.invMultiSpinner.isShowSelectAllButton = true
         v.invMultiSpinner.setSearchHint("搜尋 inverter")
         v.invMultiSpinner.setEmptyTitle("找不到 inverter!")
         v.invMultiSpinner.setClearText("關閉")
+        */
 
         getInverterList()
     }
 
     private fun initParaMultiSpinner() {
+        /*
         v.paraMultiSpinner.isSearchEnabled = true
         v.paraMultiSpinner.setSearchHint("搜尋 parameter")
         v.paraMultiSpinner.setEmptyTitle("找不到 parameter!")
         v.paraMultiSpinner.setClearText("關閉")
+         */
         getParameterList()
     }
 
@@ -161,40 +177,14 @@ class FragmentC : Fragment() {
 
                     val json = response.body!!.string() // 資料只能抓一次
                     listInverterChkList = Gson().fromJson(json, Array<InverterChkList>::class.java).toList()
-
-                    val listArray0: MutableList<KeyPairBoolData> = ArrayList()
+                    listInv.clear()
                     for (l in listInverterChkList) {
-                        val h = KeyPairBoolData()
-                        h.id = (l.nRS485ID).toLong()
-                        h.name = l.sSNID + ":" + l.nRS485ID
-                        h.isSelected = false
-                        listArray0.add(h)
+                        //val h = KeyPairBoolData()
+                        //h.id = (l.nRS485ID).toLong()
+                        //h.name = l.sSNID + ":" + l.nRS485ID
+                        //h.isSelected = false
+                        listInv.add(l.sSNID + ":" + l.nRS485ID)
                     }
-
-                    getActivity()?.runOnUiThread {
-                        v.invMultiSpinner.setItems(
-                            listArray0
-                        ) { items ->
-                            selectedInv = ""
-                            mapInvStringData = mutableMapOf()
-                            for (i in items.indices) {
-                                if (items[i].isSelected) {
-                                    val inv = items[i].name.split(":")[0]
-                                    // 組sql字串
-                                    // AND B.sSNID in ('O1Y19804686WF','O1Y19804682WF','O1Y19804684WF')
-                                    selectedInv = selectedInv + "'" + inv + "', "
-                                    mapInvStringData[inv] = mutableListOf()
-                                }
-                            }
-
-                            if (selectedInv.length > 2) {
-                                selectedInv = "AND B.sSNID in (" + selectedInv.substring(0, selectedInv.length - 2) + ")"
-                                println(selectedInv)
-                            }
-                        }
-                    }
-
-
                 }
             }
 
@@ -203,18 +193,65 @@ class FragmentC : Fragment() {
             }
         })
     }
+    private fun handleInvSelectedOptions(selectedOptions: List<String>) {
+        selectedInv = ""
+        mapInvStringData = mutableMapOf()
+        for (i in selectedOptions) {
+            val inv = i.split(":")[0]
+            // 組sql字串
+            // AND B.sSNID in ('O1Y19804686WF','O1Y19804682WF','O1Y19804684WF')
+            selectedInv = selectedInv + "'" + inv + "', "
+            mapInvStringData[inv] = mutableListOf()
+
+        }
+
+        if (selectedInv.length > 2) {
+            selectedInv = "AND B.sSNID in (" + selectedInv.substring(0, selectedInv.length - 2) + ")"
+            println(selectedInv)
+        }
+    }
+
+    private fun handleParaSelectedOptions(selectedOptions: List<String>) {
+        selectedPara = ""
+        listSelectedPara = mutableListOf()
+        for (i in selectedOptions) {
+            val p = listParameterChkList.filter {
+                it.sName2 == i.split("_")[1]
+            }
+            if (p.isNotEmpty()) {
+                // 組sql字串
+                // " ,ROUND((B.nPac)/1000,2) as nEa ,B.nOVol ,B.nOCur ,ROUND((B.nPpv)/1000,2) as nPpv...
+                if (p[0].sName == "nEa") {
+                    selectedPara += "ROUND((B.nPac)/1000,2) as nEa, "
+                } else if (p[0].sName == "nPpv") {
+                    selectedPara += "ROUND((B.nPpv)/1000,2) as nPpv, "
+                }  else  {
+                    selectedPara = selectedPara + "B." + p[0].sName + ", "
+                }
+                listSelectedPara.add(p[0].sName)
+            }
+        }
+
+        if (selectedPara.length > 2) {
+            selectedPara = " ," + selectedPara.substring(0, selectedPara.length - 2)
+            //println(selectedPara)
+        }
+
+    }
 
     private fun getParameterList() {
 
-        val listArray0: MutableList<KeyPairBoolData> = ArrayList()
+        listPara.clear()
         for (i in listParameterChkList.indices) {
+            /*
             val h = KeyPairBoolData()
             h.id = (i + 1).toLong()
             h.name = listParameterChkList[i].sType + "_" + listParameterChkList[i].sName2
             h.isSelected = false
-            listArray0.add(h)
+             */
+            listPara.add(listParameterChkList[i].sType + "_" + listParameterChkList[i].sName2)
         }
-
+/*
         v.paraMultiSpinner.setItems(
             listArray0
         ) { items ->
@@ -246,6 +283,8 @@ class FragmentC : Fragment() {
             }
 
         }
+
+ */
     }
 
     private fun getSiteData(d: String) {
