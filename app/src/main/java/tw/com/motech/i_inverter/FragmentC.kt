@@ -122,12 +122,24 @@ class FragmentC : Fragment() {
         listParameterChkList.add(ParameterChkList("直流側", "nVpv_D", "輸入電壓-D串"))
         listParameterChkList.add(ParameterChkList("直流側", "nVpv_E", "輸入電壓-E串"))
         listParameterChkList.add(ParameterChkList("直流側", "nVpv_F", "輸入電壓-F串"))
+        listParameterChkList.add(ParameterChkList("直流側", "nVpv_G", "輸入電壓-G串"))
+        listParameterChkList.add(ParameterChkList("直流側", "nVpv_H", "輸入電壓-H串"))
+        listParameterChkList.add(ParameterChkList("直流側", "nVpv_I", "輸入電壓-I串"))
+        listParameterChkList.add(ParameterChkList("直流側", "nVpv_J", "輸入電壓-J串"))
+        listParameterChkList.add(ParameterChkList("直流側", "nVpv_K", "輸入電壓-K串"))
+        listParameterChkList.add(ParameterChkList("直流側", "nVpv_L", "輸入電壓-L串"))
         listParameterChkList.add(ParameterChkList("直流側", "nIpv_A", "輸入電流-A串"))
         listParameterChkList.add(ParameterChkList("直流側", "nIpv_B", "輸入電流-B串"))
         listParameterChkList.add(ParameterChkList("直流側", "nIpv_C", "輸入電流-C串"))
         listParameterChkList.add(ParameterChkList("直流側", "nIpv_D", "輸入電流-D串"))
         listParameterChkList.add(ParameterChkList("直流側", "nIpv_E", "輸入電流-E串"))
         listParameterChkList.add(ParameterChkList("直流側", "nIpv_F", "輸入電流-F串"))
+        listParameterChkList.add(ParameterChkList("直流側", "nIpv_G", "輸入電流-G串"))
+        listParameterChkList.add(ParameterChkList("直流側", "nIpv_H", "輸入電流-H串"))
+        listParameterChkList.add(ParameterChkList("直流側", "nIpv_I", "輸入電流-I串"))
+        listParameterChkList.add(ParameterChkList("直流側", "nIpv_J", "輸入電流-J串"))
+        listParameterChkList.add(ParameterChkList("直流側", "nIpv_K", "輸入電流-K串"))
+        listParameterChkList.add(ParameterChkList("直流側", "nIpv_L", "輸入電流-L串"))
 
         listParameterChkList.add(ParameterChkList("感測器", "nHi", "日照計"))
         listParameterChkList.add(ParameterChkList("感測器", "nTmp", "溫度計"))
@@ -388,7 +400,7 @@ class FragmentC : Fragment() {
                     val isInvExistSnid = listInverterChkList.filter {
                         it.sSNID == snid
                     }
-                    var emptyInvStringData = InvStringData(siteData.sDataKey, isInvExistSnid[0].nRS485ID, snid, null, null, null, null, null,null,null,null,null,null,null,null,null,null,null,null)
+                    var emptyInvStringData = InvStringData(siteData.sDataKey, isInvExistSnid[0].nRS485ID, snid, null, null, null, null, null,null,null,null,null,null,null,null,null,null,null,null, null,null,null,null,null,null,null,null,null,null,null,null)
                     mapInvStringData[snid]?.add(emptyInvStringData)
                 }
                 else
@@ -482,12 +494,24 @@ class FragmentC : Fragment() {
                     "nVpv_D" -> pData = listInv.map { it.nVpv_D }.toTypedArray()
                     "nVpv_E" -> pData = listInv.map { it.nVpv_E }.toTypedArray()
                     "nVpv_F" -> pData = listInv.map { it.nVpv_F }.toTypedArray()
+                    "nVpv_G" -> pData = listInv.map { it.nVpv_G }.toTypedArray()
+                    "nVpv_H" -> pData = listInv.map { it.nVpv_H }.toTypedArray()
+                    "nVpv_I" -> pData = listInv.map { it.nVpv_I }.toTypedArray()
+                    "nVpv_J" -> pData = listInv.map { it.nVpv_J }.toTypedArray()
+                    "nVpv_K" -> pData = listInv.map { it.nVpv_K }.toTypedArray()
+                    "nVpv_L" -> pData = listInv.map { it.nVpv_L }.toTypedArray()
                     "nIpv_A" -> pData = listInv.map { it.nIpv_A }.toTypedArray()
                     "nIpv_B" -> pData = listInv.map { it.nIpv_B }.toTypedArray()
                     "nIpv_C" -> pData = listInv.map { it.nIpv_C }.toTypedArray()
                     "nIpv_D" -> pData = listInv.map { it.nIpv_D }.toTypedArray()
                     "nIpv_E" -> pData = listInv.map { it.nIpv_E }.toTypedArray()
                     "nIpv_F" -> pData = listInv.map { it.nIpv_F }.toTypedArray()
+                    "nIpv_G" -> pData = listInv.map { it.nIpv_G }.toTypedArray()
+                    "nIpv_H" -> pData = listInv.map { it.nIpv_H }.toTypedArray()
+                    "nIpv_I" -> pData = listInv.map { it.nIpv_I }.toTypedArray()
+                    "nIpv_J" -> pData = listInv.map { it.nIpv_J }.toTypedArray()
+                    "nIpv_K" -> pData = listInv.map { it.nIpv_K }.toTypedArray()
+                    "nIpv_L" -> pData = listInv.map { it.nIpv_L }.toTypedArray()
                 }
 
                 if (pData.isNotEmpty()) {
@@ -581,7 +605,15 @@ class FragmentC : Fragment() {
             listSelectedPara.contains("nVpv_C") ||
             listSelectedPara.contains("nVpv_D") ||
             listSelectedPara.contains("nVpv_E") ||
-            listSelectedPara.contains("nVpv_F")) {
+            listSelectedPara.contains("nVpv_F") ||
+            listSelectedPara.contains("nVpv_G") ||
+            listSelectedPara.contains("nVpv_H") ||
+            listSelectedPara.contains("nVpv_I") ||
+            listSelectedPara.contains("nVpv_J") ||
+            listSelectedPara.contains("nVpv_K") ||
+            listSelectedPara.contains("nVpv_L")
+            )
+        {
             aaYAxis1.visible = true
         }
         aaYAxisArray.add(aaYAxis1)
@@ -602,7 +634,15 @@ class FragmentC : Fragment() {
             listSelectedPara.contains("nIpv_C") ||
             listSelectedPara.contains("nIpv_D") ||
             listSelectedPara.contains("nIpv_E") ||
-            listSelectedPara.contains("nIpv_F")) {
+            listSelectedPara.contains("nIpv_F") ||
+            listSelectedPara.contains("nIpv_G") ||
+            listSelectedPara.contains("nIpv_H") ||
+            listSelectedPara.contains("nIpv_I") ||
+            listSelectedPara.contains("nIpv_J") ||
+            listSelectedPara.contains("nIpv_K") ||
+            listSelectedPara.contains("nIpv_L")
+            )
+        {
             aaYAxis2.visible = true
         }
         aaYAxisArray.add(aaYAxis2)
@@ -663,7 +703,7 @@ class FragmentC : Fragment() {
     private fun setDateFormat(year: Int, month: Int, day: Int): String {
         var strMonth : String
         var strDay : String
-        if (month < 10) {
+        if ((month + 1) < 10) {
             strMonth = "0" + (month+1).toString()
         } else {
             strMonth = (month+1).toString()

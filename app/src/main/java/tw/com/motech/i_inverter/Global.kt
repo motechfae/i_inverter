@@ -73,12 +73,24 @@ data class InvStringData(
     val nVpv_D: Float?,
     val nVpv_E: Float?,
     val nVpv_F: Float?,
+    val nVpv_G: Float?,
+    val nVpv_H: Float?,
+    val nVpv_I: Float?,
+    val nVpv_J: Float?,
+    val nVpv_K: Float?,
+    val nVpv_L: Float?,
     val nIpv_A: Float?,
     val nIpv_B: Float?,
     val nIpv_C: Float?,
     val nIpv_D: Float?,
     val nIpv_E: Float?,
-    val nIpv_F: Float?
+    val nIpv_F: Float?,
+    val nIpv_G: Float?,
+    val nIpv_H: Float?,
+    val nIpv_I: Float?,
+    val nIpv_J: Float?,
+    val nIpv_K: Float?,
+    val nIpv_L: Float?
 )
 
 data class ParameterChkList(

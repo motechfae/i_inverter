@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_iinvertericon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.I_inverter">
-        <activity android:name=".InverterListAdapterActivity" />
+        <activity android:name=".InverterListAdapterActivity"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".SiteListAdapterActivity"
             tools:ignore="Instantiatable" />
