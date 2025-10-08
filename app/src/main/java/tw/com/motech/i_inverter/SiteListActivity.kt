@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.SearchView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
@@ -21,7 +23,22 @@ class SiteListActivity : AppCompatActivity() {
     private var typeName = "北"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_site_list)
+        val root = layoutInflater.inflate(R.layout.activity_site_list, null)
+
+        ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
+            val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            val navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            val actionBarSize = obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
+                .getDimensionPixelSize(0, 0)
+
+            val topPadding = statusBarHeight + (actionBarSize / 2)
+
+            v.setPadding(0, topPadding, 0, navBarHeight)
+
+            insets
+        }
+
+        setContentView(root)
         getSiteInfo()
 
 

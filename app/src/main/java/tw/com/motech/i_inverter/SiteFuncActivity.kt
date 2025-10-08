@@ -2,6 +2,10 @@ package tw.com.motech.i_inverter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_site_func.*
@@ -9,7 +13,27 @@ import kotlinx.android.synthetic.main.activity_site_func.*
 class SiteFuncActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_site_func)
+        val root = layoutInflater.inflate(R.layout.activity_site_func, null)
+        setContentView(root)
+
+        val flFragment = root.findViewById<FrameLayout>(R.id.flFragment)
+
+        ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
+            val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            val navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            val actionBarSize = obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
+                .getDimensionPixelSize(0, 0)
+
+            v.setPadding(0, statusBarHeight + (actionBarSize / 2), 0, 0)
+
+            val params = flFragment.layoutParams as ViewGroup.MarginLayoutParams
+            params.bottomMargin = navBarHeight + actionBarSize
+            flFragment.layoutParams = params
+
+            insets
+        }
+
+        setContentView(root)
 
         // 螢幕旋轉後都預設為0 = fragmentA
         savedInstanceState?.putInt("menu_index", 0)
